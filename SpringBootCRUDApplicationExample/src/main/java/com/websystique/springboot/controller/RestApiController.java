@@ -1,6 +1,7 @@
 package com.websystique.springboot.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,14 +9,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.UriComponentsBuilder;
 
+//import com.nulabinc.zxcvbn.Strength;
+//import com.nulabinc.zxcvbn.Zxcvbn;
 import com.websystique.springboot.model.User;
+import com.websystique.springboot.service.EmailService;
 import com.websystique.springboot.service.UserService;
 import com.websystique.springboot.util.CustomErrorType;
 
@@ -25,9 +32,23 @@ public class RestApiController {
 
 	public static final Logger logger = LoggerFactory.getLogger(RestApiController.class);
 
+	
+	private UserService userService; //Service which will do all data retrieval/manipulation work
+	
+	
+//	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	
+	private EmailService emailService;
+	
 	@Autowired
-	UserService userService; //Service which will do all data retrieval/manipulation work
-
+    public RestApiController( UserService userService, EmailService emailService) {
+      
+     // this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+      this.userService = userService;
+      this.emailService = emailService;
+    }
+	
 	// -------------------Retrieve All Users---------------------------------------------
 
 	@RequestMapping(value = "/user/", method = RequestMethod.GET)
@@ -59,19 +80,55 @@ public class RestApiController {
 	@RequestMapping(value = "/user/", method = RequestMethod.POST)
 	public ResponseEntity<?> createUser(@RequestBody User user, UriComponentsBuilder ucBuilder) {
 		logger.info("Creating User : {}", user);
+		System.out.println("Usaaoooooooooo");
 		System.out.println(user);
 		if (userService.isUserExist(user)) {
 			logger.error("Unable to create. A User with name {} already exist", user.getFirstName());
 			return new ResponseEntity(new CustomErrorType("Unable to create. A User with name " + 
 			user.getFirstName() + " already exist."),HttpStatus.CONFLICT);
 		}
+		
+	//	Zxcvbn passwordCheck = new Zxcvbn();
+		//Strength strength = passwordCheck.measure(user.getPassword());
+		/*if(strength.getScore() < 3){
+			return new ResponseEntity(new CustomErrorType("Your password is too weak.  Choose a stronger one."),HttpStatus.);
+		}*/
+		
+		user.setEnabled(false);
+		user.setConfirmationToken(UUID.randomUUID().toString());
 		userService.saveUser(user);
-
+		
+		String appUrl = "http://localhost:8080/SpringBootCRUDApp/api";
+		
+		SimpleMailMessage registrationEmail = new SimpleMailMessage();
+		registrationEmail.setTo(user.getEmail());
+		registrationEmail.setSubject("Registration Confirmation");
+		registrationEmail.setText("To confirm your e-mail address, please click the link below:\n"
+				+ appUrl + "/confirm/" + user.getConfirmationToken());
+		registrationEmail.setFrom("noreply@domain.com");
+		
+		emailService.sendEmail(registrationEmail);
+		
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(ucBuilder.path("/api/user/{id}").buildAndExpand(user.getId()).toUri());
 		return new ResponseEntity<String>(headers, HttpStatus.CREATED);
 	}
-
+	
+	@RequestMapping(value = "/confirm/{token}", method = RequestMethod.GET)
+	public RedirectView confirmUser(@PathVariable("token") String token, RedirectAttributes redirectAttributes){
+		User user = userService.findByConfirmationToken(token);
+		logger.info("Activating user profile with id {}.", user.getId());
+		
+		user.setEnabled(true);
+		userService.saveUser(user);
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.set("MyResponseHeader", "MyValue");
+		
+		RedirectView redirectView = new RedirectView();
+	    redirectView.setUrl("http://localhost:8080/SpringBootCRUDApp/#!/success");
+	    System.out.println("Usao u metodu i saljem ga na uri:http://localhost:8080/SpringBootCRUDApp/success"  );
+	    return redirectView;
+	}
 	// ------------------- Update a User ------------------------------------------------
 
 /*	@RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)

@@ -28,12 +28,12 @@ public class AppController {
 	}
 	
 	 @RequestMapping(value= "/images/{image}", method = RequestMethod.GET,
-	            produces = MediaType.IMAGE_JPEG_VALUE)
+	            produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
 	    public ResponseEntity<InputStreamResource> getImage(@PathVariable("image") final String image) throws IOException {
-	        ClassPathResource imgFile = new ClassPathResource("images/"+image+".png");
+	        ClassPathResource imgFile = new ClassPathResource("images/"+image + ".png");
 	        return ResponseEntity
 	                .ok()
-	                .contentType(MediaType.IMAGE_PNG)
+	               // .contentType(MediaType.IMAGE_PNG, MediaType.IMAGE_JPEG)
 	                .body(new InputStreamResource(imgFile.getInputStream()));
 	    }
 

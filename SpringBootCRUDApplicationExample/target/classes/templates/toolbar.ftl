@@ -25,15 +25,15 @@
                 </ul>
                 <ul class="nav navbar-nav" ng-show="loggedUser==null || loggedUser==undefined">
                     <li><a ui-sref="guest-abstract.guest">Home</a></li>
-                    <li><a href="#">About</a></li>
+                    <li><a ui-sref="choice">About</a></li>
                     <li><a href="#">Contact Us</a></li>
                 </ul>
 
 
                 <div id="sign-up-navbar-right" ng-if="loggedUser==undefined || loggedUser==null">
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a data-toggle="modal" ui-sref="login"> Login</a></li>
-                        <li><a data-toggle="modal" ui-sref="registration"> Sign Up</a></li>
+                        <li><a  ui-sref="login"> Login</a></li>
+                        <li><a  ui-sref="registration"> Sign Up</a></li>
                     </ul>
                 </div>
                 
@@ -48,9 +48,6 @@
             <!-- /.navbar-collapse -->
         </div>
     </nav>
-
-    <div >
-        <div class="modal fade" id="login-form" ng-include="par5tials/login">vg</div>
-    </div>
  
-   <div id="proba"> {{1+1}}</div>
+   <div ui-view='choosing'></div>
+   <div ui-view='cinemas'></div>

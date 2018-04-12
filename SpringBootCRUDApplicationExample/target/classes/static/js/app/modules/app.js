@@ -19,10 +19,21 @@ app.constant('urls', {
     BASE: 'http://localhost:8080/SpringBootCRUDApp',
     USER_SERVICE_API : 'http://localhost:8080/SpringBootCRUDApp/api/user/'
 });
-app.controller('baseController',['$scope', function($scope){
+app.controller('baseController',['$scope','$state', function($scope, $state){
+    $scope.open = function () {
+        $scope.showModal = true;
+    };
+    
+    $scope.ok = function () {
+        $scope.showModal = false;
+    };
+    
+    $scope.cancel = function () {
+        $scope.showModal = false;
+    };
     
 }]);
-app.config(['$stateProvider', '$urlRouterProvider',
+/*app.config(['$stateProvider', '$urlRouterProvider',
     function($stateProvider, $urlRouterProvider) {
         $stateProvider
             .state('home', {
@@ -46,9 +57,73 @@ app.config(['$stateProvider', '$urlRouterProvider',
             }).state('login',{
             	url: '/login',
             	templateUrl: 'partials/login',
-            	controller: 'loginController',
-            	
+            	controller: 'loginController'
+            }).state('success',{
+                url: '/success',
+                templateUrl: 'partials/successMessage',
+                controller: 'UserController',
+                controllerAs: 'sCtrl'
+            }).state('choice',{
+                url: '/choice',
+                templateUrl: 'partials/choice',
+                controller: 'UserController',
+                controllerAs: 'sCtrl'
             });
         $urlRouterProvider.otherwise('/');
+    }]);*/
+
+    app.config(['$stateProvider', '$urlRouterProvider',
+    function($stateProvider, $urlRouterProvider) {
+        $stateProvider
+        .state('guest-abstract', {
+            abstract: true,
+            views: {
+                '@': { templateUrl: 'partials/toolbar' }
+            }
+        })
+        .state('guest-abstract.home',{
+            url: '/home',
+            views: {
+                'choosing': {
+                  templateUrl: 'partials/choice',
+                  controller: 'choosingController',
+                  controllerAs: 'chooseCtrl'
+              }
+            }
+           
+        })
+        .state('guest-abstract.cinemas',{
+            url: '/cinemas',
+            views: {
+                'cinemas': {
+                  template: '<strong>We are at cinemas state</strong>',
+                  controller: 'choosingController',
+                  controllerAs: 'chooseCtrl'
+              }
+            }
+           
+        })
+        .state('login',{
+            url: '/login',
+            templateUrl: 'partials/login',
+            controller: 'loginController'
+        })
+        .state('registration',{
+            url: '/registration',
+            templateUrl: 'partials/register',
+            controller: 'UserController',
+            controllerAs: 'regCtrl'
+        });
+        $urlRouterProvider.otherwise('/home');
     }]);
 
+    app.controller('choosingController',['$scope','$state', function($scope, $state){
+        var self = this;
+        self.toCinemas = toCinemas;
+        function toCinemas() {
+           $state.go('guest-abstract.cinemas');
+        };
+        
+        
+        
+    }]);

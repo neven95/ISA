@@ -1,4 +1,6 @@
 <div class="modal-dialog">
+    <div class="alert alert-success" role="alert" ng-if="regCtrl.successMessage">{{regCtrl.successMessage}}</div>
+	<div class="alert alert-danger" role="alert" ng-if="regCtrl.errorMessage">{{regCtrl.errorMessage}}</div>
     <div class="modal-content">
         <!--Header-->
         <div class="modal-header">
@@ -115,7 +117,7 @@
         </div>
         <!--Footer-->
         <div class="modal-footer">
-            <button class=" btn btn-primary btn-block"  ng-click="regCtrl.submit()" > Register </button>
+            <button class=" btn btn-primary btn-block" ng-disabled="registerForm.$invalid" ng-click="regCtrl.submit()" > Register </button>
         </div>
     </div>
 </div>

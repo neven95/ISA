@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService{
 	public User findByName(String firstName) {
 		return userRepository.findByFirstName(firstName);
 	}
-
+	
 	public void saveUser(User user) {
 		userRepository.save(user);
 	}
@@ -46,7 +46,20 @@ public class UserServiceImpl implements UserService{
 	}
 
 	public boolean isUserExist(User user) {
-		return findByName(user.getFirstName()) != null;
+		return (findByUsername(user.getUsername()) != null) || (findByEmail(user.getEmail()) != null);
+	}
+	
+	//my methods
+	
+	public User findByUsername(String username){
+		return userRepository.queryUsername(username);
+	}
+	public User findByEmail(String email){
+		return userRepository.queryEmail(email);
+	}
+	
+	public User findByConfirmationToken(String confirmationToken) {
+		return userRepository.findByConfirmationToken(confirmationToken);
 	}
 
 }

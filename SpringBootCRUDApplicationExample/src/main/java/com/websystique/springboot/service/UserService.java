@@ -22,4 +22,8 @@ public interface UserService {
 	List<User> findAllUsers();
 
 	boolean isUserExist(User user);
+	
+	public User findByEmail(String email);
+	
+	public User findByConfirmationToken(String confirmationToken);
 }

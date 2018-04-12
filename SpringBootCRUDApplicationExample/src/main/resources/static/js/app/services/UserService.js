@@ -56,6 +56,7 @@ angular.module('crudApp').factory('UserService',
 
             function createUser(user) {
                 console.log('Creating User');
+                console.log(user);
                 var deferred = $q.defer();
                 $http.post(urls.USER_SERVICE_API, user)
                     .then(

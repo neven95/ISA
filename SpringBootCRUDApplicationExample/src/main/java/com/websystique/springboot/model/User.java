@@ -24,15 +24,36 @@ public class User implements Serializable{
 	private String email;
 
 	@Column(name="password")
+	
 	private String password;
 	
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public String getConfirmationToken() {
+		return confirmationToken;
+	}
+
+	public void setConfirmationToken(String confirmationToken) {
+		this.confirmationToken = confirmationToken;
+	}
+
 	@Column(name="tel")
 	private String phoneNumber;
 	
 	@Column(name="username")
 	private String username;
 	
-
+	@Column(name="enabled")
+	private boolean enabled;
+	
+	@Column(name = "confirmation_token")
+	private String confirmationToken;
 	
 public Long getId() {
 		return id;
@@ -101,11 +122,7 @@ public Long getId() {
 		return result;
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", age=" + age
-				+ ", salary=" + salary + "]";
-	}
+	
 
 */
 	public User(){
@@ -122,10 +139,13 @@ public Long getId() {
 	this.username = username;
 }
 
+	
+
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", ime=" + firstName + ", prezime=" + lastName + ", email=" + email + ", password="
-				+ password + ", phoneNumber=" + phoneNumber + ", username=" + username + "]";
+		return "User [firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", password=" + password
+				+ ", phoneNumber=" + phoneNumber + ", username=" + username + ", enabled=" + enabled
+				+ ", confirmationToken=" + confirmationToken + "]";
 	}
 
 	public String getFirstName() {

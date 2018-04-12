@@ -21,6 +21,7 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -68,7 +69,7 @@ public class JpaConfiguration {
 			dataSource.setMaximumPoolSize(maxPoolSize);
 			return dataSource;
 	}
-
+	
 	/*
 	 * Entity Manager Factory setup.
 	 */

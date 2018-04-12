@@ -1,11 +1,13 @@
 'use strict';
 
 angular.module('crudApp').controller('UserController',
-    ['UserService', '$scope',  function( UserService, $scope) {
+    ['UserService', '$scope','$state',   function( UserService, $scope, $state) {
         
         var self = this;
         self.user = {};
         self.users=[];
+        self.user.enabled = false;
+        self.user.confirmationToken = '';
         self.loggedUser = null;
         self.submit = submit;
         self.getAllUsers = getAllUsers;
@@ -25,7 +27,10 @@ angular.module('crudApp').controller('UserController',
 
         self.onlyIntegers = /^\d+$/;
         self.onlyNumbers = /^\d+([,.]\d+)?$/;
-
+        function glupaFunkcija() {
+            console.log('Usao sam u kontroler');
+           // $state.go('login');
+        }
         function submit() {
             console.log('Submitting');
             if (self.user.id === undefined || self.user.id === null) {
@@ -35,6 +40,10 @@ angular.module('crudApp').controller('UserController',
                 updateUser(self.user, self.user.id);
                 console.log('User updated with id ', self.user.id);
             }
+        }
+        self.moje = function () {
+        	  
+              $state.go('login');
         }
 
         function createUser(user) {
@@ -47,7 +56,10 @@ angular.module('crudApp').controller('UserController',
                         self.errorMessage='';
                         self.done = true;
                         self.user={};
-                        $scope.myForm.$setPristine();
+                        $scope.registerForm.$setPristine();
+                        $scope.registerForm.$setUntouched();
+                      
+                        
                     },
                     function (errResponse) {
                         console.error('Error while creating User');

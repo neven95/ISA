@@ -1,50 +1,22 @@
-<div class="modal-dialog" id="login-modal">
-    <div class="modal-content">
-        <!--Header-->
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h3 class="modal-title">Log in</h3>
+
+<div class="alert alert-danger" role="alert" ng-if="loginCtrl.errorMessage">{{loginCtrl.errorMessage}}</div>
+<div class="col-md-6 col-md-offset-3">
+    <h2>Login</h2>
+    <form name="form" ng-submit="loginCtrl.login()" role="form">
+        <div class="form-group" ng-class="{ 'has-error': form.username.$dirty && form.username.$error.required }">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" class="form-control" ng-model="loginCtrl.username" required />
+            <span ng-show="form.username.$dirty && form.username.$error.required" class="help-block">Username is required</span>
         </div>
-        <!--Body-->
-        <div class="modal-body">
-            <div id="authError" style="display: none">
-                <div class="panel panel-danger">
-                    <div class="panel-heading">Authentication Error</div>
-                    <div class="panel-body">
-                        <p class="text-danger">You have entered wrong Username & Password combination!Please try again!</p>
-                    </div>
-                </div>
-            </div>
-            <form role="form" name="loginForm">
-                <div class="form-group">
-                    <input type="text" class="form-control" name="username" placeholder="Username" ng-pattern="usernamePattern" ng-minlength="3" ng-maxlength="10" ng-required="true" ng-model="$parent.username"></input>
-                    <div ng-show="loginForm.username.$touched && (loginForm.username.$error.minlength || loginForm.username.$error.maxlength)">
-                        <small style="color:red;display:block;text-align:center;">Username must have anywhere between 3 and 10 characters!</small>
-                    </div>
-                    <div ng-show="loginForm.username.$touched && loginForm.username.$error.required">
-                        <small style="color:red;display:block;text-align:center;">Required!</small>
-                    </div>
-                    <div ng-show="loginForm.username.$touched && loginForm.username.$error.pattern">
-                        <small style="color:red;display:block;text-align:center;">Invalid characters detected!</small>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <input type="password" class="form-control" name="password" placeholder="Password" ng-pattern="passwordPattern" ng-minlength="8" ng-maxlength="16" ng-required="true" ng-model="$parent.password"></input>
-                    <div ng-show="loginForm.password.$touched && (loginForm.password.$error.minlength || loginForm.password.$error.maxlength)">
-                        <small style="color:red;display:block;text-align:center;">Password must have anywhere between 8 and 16 characters!</small>
-                    </div>
-                    <div ng-show="loginForm.password.$touched && loginForm.password.$error.required">
-                        <small style="color:red;display:block;text-align:center;">Required!</small>
-                    </div>
-                    <div ng-show="loginForm.password.$touched && loginForm.password.$error.pattern">
-                        <small style="color:red;display:block;text-align:center;">Invalid characters detected!</small>
-                    </div>
-                </div>
-            </form>
+        <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" class="form-control" ng-model="loginCtrl.password" required />
+            <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
         </div>
-        <!--Footer-->
-        <div class="modal-footer">
-            <button class=" btn btn-primary btn-block" ng-disabled="loginForm.$invalid" ng-click="$parent.userLogin()">Log in</button>
+        <div class="form-actions">
+            <button type="submit" ng-disabled="form.$invalid || loginCtrl.dataLoading" class="btn btn-primary">Login</button>
+            <img ng-if="loginCtrl.dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+            <a href="#!/register" class="btn btn-link">Register</a>
         </div>
-    </div>
+    </form>
 </div>

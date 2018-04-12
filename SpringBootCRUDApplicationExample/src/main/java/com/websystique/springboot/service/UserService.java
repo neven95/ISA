@@ -26,4 +26,6 @@ public interface UserService {
 	public User findByEmail(String email);
 	
 	public User findByConfirmationToken(String confirmationToken);
+	
+	public User findByUsername(String username);
 }

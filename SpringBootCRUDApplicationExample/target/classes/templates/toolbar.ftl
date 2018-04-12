@@ -30,7 +30,7 @@
                 </ul>
 
 
-                <div id="sign-up-navbar-right" ng-if="loggedUser==undefined || loggedUser==null">
+                <div id="sign-up-navbar-right" ng-if="globals.currentUser.username==null">
                     <ul class="nav navbar-nav navbar-right">
                         <li><a  ui-sref="login"> Login</a></li>
                         <li><a  ui-sref="registration"> Sign Up</a></li>
@@ -38,9 +38,9 @@
                 </div>
                 
                 <div >
-                    <div id="log-out-navbar-right" ng-show="loggedUser!=null">
+                    <div id="log-out-navbar-right" ng-show="globals.currentUser.username!=null">
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="#" ng-click="userLogout()"><span class="fa fa-sign-out" aria-hidden="true"  ></span>Log out</a></li>
+                            <li><a href="#" ng-click="baseCtrl.logout()"><span class="fa fa-sign-out" aria-hidden="true"  ></span>Log out</a></li>
                         </ul>
                     </div>
                 </div>
@@ -48,6 +48,7 @@
             <!-- /.navbar-collapse -->
         </div>
     </nav>
- 
+    Logged user:
+ {{globals}}
    <div ui-view='choosing'></div>
    <div ui-view='cinemas'></div>

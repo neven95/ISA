@@ -24,7 +24,7 @@ angular.module('crudApp').controller('UserController',
         self.successMessage = '';
         self.errorMessage = '';
         self.done = false;
-
+        self.dataLoading = false;
         self.onlyIntegers = /^\d+$/;
         self.onlyNumbers = /^\d+([,.]\d+)?$/;
         function glupaFunkcija() {
@@ -33,6 +33,7 @@ angular.module('crudApp').controller('UserController',
         }
         function submit() {
             console.log('Submitting');
+            self.dataLoading = true;
             if (self.user.id === undefined || self.user.id === null) {
                 console.log('Saving New User', self.user);
                 createUser(self.user);
@@ -52,19 +53,20 @@ angular.module('crudApp').controller('UserController',
                 .then(
                     function (response) {
                         console.log('User created successfully');
-                        self.successMessage = 'User created successfully';
+                        self.successMessage = 'User created successfully, activate your profile and go to Login page';
                         self.errorMessage='';
                         self.done = true;
                         self.user={};
                         $scope.registerForm.$setPristine();
                         $scope.registerForm.$setUntouched();
-                      
+                        self.dataLoading = false;
                         
                     },
                     function (errResponse) {
                         console.error('Error while creating User');
                         self.errorMessage = 'Error while creating User: ' + errResponse.data.errorMessage;
                         self.successMessage='';
+                        self.dataLoading = false;
                     }
                 );
         }

@@ -112,6 +112,17 @@ app.controller('baseController',['$scope','$state', function($scope, $state){
             }
            
         })
+        .state('success',{
+            url: '/success',
+            templateUrl: 'partials/successMessage',
+            controller: 'UserController',
+            controllerAs: 'sCtrl'
+        })
+        .state('badToken',{
+            url: '/badToken',
+            templateUrl: 'partials/badtoken',
+           
+        })
         .state('login',{
             url: '/login',
             templateUrl: 'partials/login',
@@ -120,7 +131,7 @@ app.controller('baseController',['$scope','$state', function($scope, $state){
         })
         .state('registration',{
             url: '/registration',
-            templateUrl: 'partials/register',
+            templateUrl: 'partials/registration',
             controller: 'UserController',
             controllerAs: 'regCtrl'
         });

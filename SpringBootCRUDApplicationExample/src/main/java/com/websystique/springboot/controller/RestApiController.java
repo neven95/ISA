@@ -146,7 +146,17 @@ public class RestApiController {
 	@RequestMapping(value = "/confirm/{token}", method = RequestMethod.GET)
 	public RedirectView confirmUser(@PathVariable("token") String token, RedirectAttributes redirectAttributes){
 		User user = userService.findByConfirmationToken(token);
-		logger.info("Activating user profile with id {}.", user.getId());
+		System.out.println("Usao u confirm************************************" + user);
+		//logger.info("Activating user profile with id {}.", user.getId());
+		if(user == null){
+			HttpHeaders responseHeaders = new HttpHeaders();
+			responseHeaders.set("MyResponseHeader", "MyValue");
+			
+			RedirectView redirectView = new RedirectView();
+		    redirectView.setUrl("http://localhost:8080/SpringBootCRUDApp/#!/badToken");
+		    System.out.println("Usao u metodu i saljem ga na uri:http://localhost:8080/SpringBootCRUDApp/badToken"  );
+		    return redirectView;
+		}
 		
 		user.setEnabled(true);
 		userService.saveUser(user);

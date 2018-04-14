@@ -17,7 +17,8 @@ app.run(function($rootScope, $http) {
 });
 app.constant('urls', {
     BASE: 'http://localhost:8080/SpringBootCRUDApp',
-    USER_SERVICE_API : 'http://localhost:8080/SpringBootCRUDApp/api/user/'
+    USER_SERVICE_API : 'http://localhost:8080/SpringBootCRUDApp/api/user/',
+    CINEMAS_SERVICE_API : 'http://localhost:8080/SpringBootCRUDApp/cinemasApi/cinemas'
 });
 app.controller('baseController',['$scope','$state', function($scope, $state){
     $scope.open = function () {
@@ -85,7 +86,7 @@ app.controller('baseController',['$scope','$state', function($scope, $state){
             url: '/home',
             views: {
                 'choosing': {
-                  templateUrl: 'partials/choice',
+                  templateUrl: 'partials/home',
                   controller: 'choosingController',
                   controllerAs: 'chooseCtrl'
               }
@@ -96,12 +97,18 @@ app.controller('baseController',['$scope','$state', function($scope, $state){
             url: '/cinemas',
             views: {
                 'cinemas': {
-                  template: '<strong>We are at cinemas state</strong>',
-                  controller: 'choosingController',
-                  controllerAs: 'chooseCtrl'
+                  templateUrl: 'partials/cinemas',
+                  controller: 'CinemasController',
+                  controllerAs: 'cinemasCtrl1'
               }
-            }
-           
+            },
+              resolve: {
+                initialData: function(CinemasService){
+                      
+                      console.log(CinemasService.loadAllCinemas());
+                      return CinemasService.loadAllCinemas();   
+                  }
+              }
         })
         .state('login',{
             url: '/login',

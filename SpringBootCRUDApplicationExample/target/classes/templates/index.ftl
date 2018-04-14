@@ -24,7 +24,7 @@
         <script src="js/app/modules/app.js"></script>
         <!-- Services -->
         <script src="js/app/services/UserService.js"></script>
-
+        <script src="js/app/services/CinemasService.js"></script>
         <!-- Modules -->
         
         <script src="js/app/modules/authentication/login.js"></script>
@@ -35,7 +35,7 @@
         <script src="js/app/controllers/successController.js"></script>
         <script src="js/app/controllers/authentication/LoginController.js"></script>
         <script src="js/app/controllers/authentication/RegistrationController.js"></script>
-
+        <script src="js/app/controllers/CinemasController.js"></script>
         
          <script type='text/javascript' src='js/lib/bootstrap.js'></script>
       </body>

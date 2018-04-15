@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.websystique.springboot.model.CulturalObject;
 import com.websystique.springboot.repositories.CulturalObjectRepository;
 
-@Service("culturalObjectService")
-public class CulturalObjectServiceImpl implements CulturalObjectService {
+@Service("CinemasService")
+public class CinemasServiceImpl implements CinemasService {
 	
 	@Autowired
 	private CulturalObjectRepository objectRepository;

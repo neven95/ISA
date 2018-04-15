@@ -4,14 +4,12 @@ angular.module('crudApp').factory('CinemasService',
     ['$localStorage', '$http', '$q', 'urls', 
         function($localStorage, $http, $q, urls) {
 
-            var factory = {
-                loadAllCinemas: loadAllCinemas
-            //    loadAllTheatres: loadAllTheatres
-            };
+            var self = this;
+           // self.loadAllCinemas = loadAllCinemas;
 
-            return factory;
+            var factory = {};
 
-            function loadAllCinemas() {
+            factory.loadAllCinemas = function() {
                 console.log("Fetching cinemas...");
 
                 $http.get(urls.CINEMAS_SERVICE_API)
@@ -23,8 +21,11 @@ angular.module('crudApp').factory('CinemasService',
                         }, 
                         function(errResponse) {
                             console.error('Error while loading cinemas');
-                            deferred.reject(errResponse);
+                            //deferred.reject(errResponse);
+                            return errResponse;
                         }
                     );
             }
+
+            return factory;
         }])

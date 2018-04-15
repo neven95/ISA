@@ -1,6 +1,6 @@
 var app = angular.module('crudApp',['ui.router','ngStorage','registration-module', 'login-module',  'ngCookies']);
 
-app.run(function($rootScope, $location, $http, $cookies) {
+app.run(function($rootScope, $location, $http, $cookies, CinemasService, TheatresService) {
 
     $http.defaults.headers.get = { 'Content-type': 'application/json' };
 
@@ -24,7 +24,8 @@ app.constant('urls', {
     BASE: 'http://localhost:8080/SpringBootCRUDApp',
     USER_SERVICE_API : 'http://localhost:8080/SpringBootCRUDApp/api/user/',
     CINEMAS_SERVICE_API : 'http://localhost:8080/SpringBootCRUDApp/cinemasApi/cinemas',
-    AUTHENTICATION_SERVICE_API : 'http://localhost:8080/SpringBootCRUDApp/api/authenticate/'
+    AUTHENTICATION_SERVICE_API : 'http://localhost:8080/SpringBootCRUDApp/api/authenticate/',
+    THEATRES_SERVICE_API : 'http://localhost:8080/SpringBootCRUDApp/theatresApi/theatres',
 });
 /*app.config(['$stateProvider', '$urlRouterProvider',
     function($stateProvider, $urlRouterProvider) {
@@ -100,8 +101,24 @@ app.constant('urls', {
               resolve: {
                 initialData: function(CinemasService){
                       
-                      console.log(CinemasService.loadAllCinemas());
-                      return CinemasService.loadAllCinemas();   
+                        //console.log(CinemasService.loadAllCinemas());
+                      return CinemasService.loadAllCinemas(); 
+                  }
+              }
+        })
+        .state('guest-abstract.theatres',{
+            url: '/theatres',
+            views: {
+                'theatres': {
+                  templateUrl: 'partials/theatres',
+                  controller: 'TheatresController',
+                  controllerAs: 'theatresCtrl'
+              }
+            },
+              resolve: {
+                initialData: function(TheatresService){
+                      console.log(TheatresService.loadAllTheatres());
+                      return TheatresService.loadAllTheatres();   
                   }
               }
         })
@@ -134,7 +151,14 @@ app.constant('urls', {
     app.controller('choosingController',['$scope','$state', function($scope, $state){
         var self = this;
         self.toCinemas = toCinemas;
+        self.toTheatres = toTheatres;
+
         function toCinemas() {
            $state.go('guest-abstract.cinemas');
         }
+
+        function toTheatres() {
+            $state.go('guest-abstract.theatres');
+        }
+
     }]);

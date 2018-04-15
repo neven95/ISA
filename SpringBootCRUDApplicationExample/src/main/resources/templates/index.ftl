@@ -30,6 +30,7 @@
         <script src="js/app/services/authentication/AuthenticationService.js"> </script>
         <script src="js/app/services/UserService.js"></script>
         <script src="js/app/services/CinemasService.js"></script>
+        <script src="js/app/services/TheatresService.js"></script>
         
         <!-- Modules -->
         <script src="js/app/modules/authentication/login.js"></script>
@@ -42,6 +43,7 @@
         <script src="js/app/controllers/authentication/RegistrationController.js"></script>
         <script src="js/app/controllers/BaseController.js"></script>
         <script src="js/app/controllers/CinemasController.js"></script>
+        <script src="js/app/controllers/TheatresController.js"></script>
         
          <script type='text/javascript' src='js/lib/bootstrap.js'></script>
       </body>

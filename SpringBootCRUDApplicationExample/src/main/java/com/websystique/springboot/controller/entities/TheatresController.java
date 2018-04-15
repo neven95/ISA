@@ -10,30 +10,27 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.websystique.springboot.model.CulturalObject;
-import com.websystique.springboot.service.CinemasServiceImpl;
+import com.websystique.springboot.service.TheatresServiceImpl;
 
 @RestController
-@RequestMapping("/cinemasApi")
-public class CinemasController {
-	
+@RequestMapping("/theatresApi")
+public class TheatresController {
+
 	@Autowired
-	private CinemasServiceImpl cinemaService;
-	
-	public CinemasController(CinemasServiceImpl cinemaService) {
-		this.cinemaService = cinemaService;
+	private TheatresServiceImpl theatreService;
+
+	public TheatresController(TheatresServiceImpl theatreService) {
+		this.theatreService = theatreService;
 	}
-
-
-
-	@RequestMapping(value="/cinemas", method=RequestMethod.GET)
-	public ResponseEntity<?> getCinemas(){
+	
+	@RequestMapping(value="/theatres", method=RequestMethod.GET)
+	public ResponseEntity<?> getTheatres() {
 		System.out.println("Upapp*o*o*********************************");
-		List<CulturalObject> cinemasList = cinemaService.findAllObjects();
-		System.out.println(cinemasList.get(0));
-		if(cinemasList.isEmpty()){
+		List<CulturalObject> theatresList = theatreService.findAllObjects();
+		
+		if(theatresList.isEmpty())
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
-		}
-		return new ResponseEntity<List<CulturalObject>>(cinemasList, HttpStatus.OK);
+		return new ResponseEntity<List<CulturalObject>>(theatresList, HttpStatus.OK);
 	}
 	
 }

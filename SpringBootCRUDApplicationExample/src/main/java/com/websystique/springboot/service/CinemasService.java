@@ -5,7 +5,7 @@ import java.util.List;
 import com.websystique.springboot.model.CulturalObject;
 import com.websystique.springboot.model.User;
 
-public interface CulturalObjectService {
+public interface CinemasService {
 
 	CulturalObject findById(Long id);
 

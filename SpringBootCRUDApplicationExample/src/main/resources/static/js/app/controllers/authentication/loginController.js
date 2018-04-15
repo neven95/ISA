@@ -22,6 +22,7 @@
                 if (response.status == 200) {
                     console.log('trebalo bi ovde da udje');
                     AuthenticationService.SetCredentials(vm.username, vm.password);
+                    
                    $state.go('guest-abstract.home');
                 } else {
                     console.log('Ovo je poruka o gresci ' + response.data.errorMessage);

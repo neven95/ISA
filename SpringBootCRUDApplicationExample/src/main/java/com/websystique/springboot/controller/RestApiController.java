@@ -87,7 +87,7 @@ public class RestApiController {
 			return new ResponseEntity(new CustomErrorType("User with username " +  loginForm.getUsername()
 			+	"not found"	), HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<LoginForm>(loginForm, HttpStatus.OK);
+		return new ResponseEntity<String>(user.getType(), HttpStatus.OK);
 	}
 
 	// -------------------Retrieve Single User------------------------------------------
@@ -109,7 +109,6 @@ public class RestApiController {
 	@RequestMapping(value = "/user/", method = RequestMethod.POST)
 	public ResponseEntity<?> createUser(@RequestBody User user, UriComponentsBuilder ucBuilder) {
 		logger.info("Creating User : {}", user);
-		System.out.println("Usaaoooooooooo");
 		System.out.println(user);
 		if (userService.isUserExist(user)) {
 			logger.error("Unable to create. A User with name {} already exist", user.getFirstName());

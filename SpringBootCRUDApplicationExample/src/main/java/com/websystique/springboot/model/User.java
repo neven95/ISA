@@ -29,6 +29,17 @@ public class User implements Serializable{
 	@Column(name="grad")
 	private String city;
 	
+	@Column(name="tip")
+	private String type;
+	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public String getCity() {
 		return city;
 	}
@@ -139,7 +150,7 @@ public Long getId() {
 		
 	}
 	
-	public User(String ime, String prezime, String email, String password, String phoneNumber, String username, String city) {
+	public User(String ime, String prezime, String email, String password, String phoneNumber, String username, String city, String type) {
 	super();
 	this.firstName = ime;
 	this.lastName = prezime;
@@ -148,6 +159,7 @@ public Long getId() {
 	this.phoneNumber = phoneNumber;
 	this.username = username;
 	this.city = city;
+	this.type = type;
 }
 
 	
@@ -156,7 +168,7 @@ public Long getId() {
 	public String toString() {
 		return "User [firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", password=" + password
 				+ ", phoneNumber=" + phoneNumber + ", username=" + username + ", enabled=" + enabled
-				+ ", confirmationToken=" + confirmationToken + ", city=" + city +  "]";
+				+ ", confirmationToken=" + confirmationToken + ", city=" + city +", type="+ type + "]";
 	}
 
 	public String getFirstName() {

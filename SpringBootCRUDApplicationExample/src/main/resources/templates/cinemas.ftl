@@ -1,4 +1,5 @@
-  <div ng-repeat="cinema in cinemasCtrl.cinemasList">
+Cinemas: 
+<hr>  
+<div ng-repeat="cinema in cinemasCtrl.cinemasList">
     {{cinema.name}}
-</div>  
-
+</div>

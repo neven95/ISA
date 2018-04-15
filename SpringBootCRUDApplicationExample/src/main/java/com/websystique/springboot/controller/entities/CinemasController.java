@@ -10,17 +10,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.websystique.springboot.model.CulturalObject;
-import com.websystique.springboot.service.CulturalObjectServiceImpl;
+import com.websystique.springboot.service.CinemasServiceImpl;
 
 @RestController
 @RequestMapping("/cinemasApi")
 public class CinemasController {
 	
 	@Autowired
-	private CulturalObjectServiceImpl cinemaService;
+	private CinemasServiceImpl cinemaService;
 	
-	public CinemasController(CulturalObjectServiceImpl cinemaService) {
-		super();
+	public CinemasController(CinemasServiceImpl cinemaService) {
 		this.cinemaService = cinemaService;
 	}
 

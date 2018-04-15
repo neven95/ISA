@@ -52,3 +52,4 @@
  {{globals}}
    <div ui-view='choosing'></div>
    <div ui-view='cinemas'></div>
+   <div ui-view='theatres'></div>

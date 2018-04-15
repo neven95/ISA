@@ -21,7 +21,10 @@
             AuthenticationService.Login(vm.username, vm.password, function (response) {
                 if (response.status == 200) {
                     console.log('trebalo bi ovde da udje');
-                    AuthenticationService.SetCredentials(vm.username, vm.password);
+                    console.log(response);
+                    console.log("a ovo je data od response");
+                    console.log(response.data);
+                    AuthenticationService.SetCredentials(vm.username, vm.password, response.data);
                     
                    $state.go('guest-abstract.home');
                 } else {

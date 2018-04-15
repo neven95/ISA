@@ -15,4 +15,7 @@ public interface CulturalObjectRepository extends JpaRepository<CulturalObject, 
 	//@Query("SELECT * FROM CulturalObject c WHERE c.tip = \'bioskop\'")
 	@Query("SELECT c FROM CulturalObject c where LOWER(c.type) = \'bioskop\'")
 	public List<CulturalObject> queryCinemas();
+	
+	@Query("SELECT c FROM CulturalObject c where LOWER(c.type) = \'pozoriste\'")
+	public List<CulturalObject> queryTheatres();
 }

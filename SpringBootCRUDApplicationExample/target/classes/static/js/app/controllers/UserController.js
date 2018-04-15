@@ -8,6 +8,7 @@ angular.module('crudApp').controller('UserController',
         self.users=[];
         self.user.enabled = false;
         self.user.confirmationToken = '';
+        self.user.type = '0';
         self.loggedUser = null;
         self.submit = submit;
         self.getAllUsers = getAllUsers;

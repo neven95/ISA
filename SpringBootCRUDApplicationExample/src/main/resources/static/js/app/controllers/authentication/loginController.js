@@ -5,10 +5,10 @@
         .module('crudApp')
         .controller('LoginController', LoginController);
  
-    LoginController.$inject = ['$location', 'AuthenticationService', 'FlashService'];
-    function LoginController($location, AuthenticationService, FlashService) {
+    LoginController.$inject = ['AuthenticationService', '$state'];
+    function LoginController(AuthenticationService, $state) {
         var vm = this;
- 
+        
         vm.login = login;
  
         (function initController() {
@@ -19,15 +19,17 @@
         function login() {
             vm.dataLoading = true;
             AuthenticationService.Login(vm.username, vm.password, function (response) {
-                if (response.success) {
+                if (response.status == 200) {
+                    console.log('trebalo bi ovde da udje');
                     AuthenticationService.SetCredentials(vm.username, vm.password);
-                    $location.path('/');
+                   $state.go('guest-abstract.home');
                 } else {
-                    FlashService.Error(response.message);
+                    console.log('Ovo je poruka o gresci ' + response.data.errorMessage);
+                    vm.errorMessage = response.data.errorMessage;
                     vm.dataLoading = false;
                 }
             });
         };
     }
- 
+
 })();

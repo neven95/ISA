@@ -1,9 +1,14 @@
-var app = angular.module('crudApp',['ui.router','ngStorage','registration-module', 'login-module']);
+var app = angular.module('crudApp',['ui.router','ngStorage','registration-module', 'login-module',  'ngCookies']);
 
-app.run(function($rootScope, $http) {
+app.run(function($rootScope, $location, $http, $cookies) {
 
     $http.defaults.headers.get = { 'Content-type': 'application/json' };
 
+    $rootScope.globals = $cookies.getObject('globals') || {};
+    console.log($rootScope);
+    if ($rootScope.globals.currentUser) {
+        $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.authdata;
+    }
  
     $rootScope.$on('$stateChangeStart', function(evt, toState, toParams, fromState, fromParams) {
         console.log("$stateChangeStart " + fromState.name + JSON.stringify(fromParams) + " -> " + toState.name + JSON.stringify(toParams));
@@ -18,22 +23,9 @@ app.run(function($rootScope, $http) {
 app.constant('urls', {
     BASE: 'http://localhost:8080/SpringBootCRUDApp',
     USER_SERVICE_API : 'http://localhost:8080/SpringBootCRUDApp/api/user/',
-    CINEMAS_SERVICE_API : 'http://localhost:8080/SpringBootCRUDApp/cinemasApi/cinemas'
+    CINEMAS_SERVICE_API : 'http://localhost:8080/SpringBootCRUDApp/cinemasApi/cinemas',
+    AUTHENTICATION_SERVICE_API : 'http://localhost:8080/SpringBootCRUDApp/api/authenticate/'
 });
-app.controller('baseController',['$scope','$state', function($scope, $state){
-    $scope.open = function () {
-        $scope.showModal = true;
-    };
-    
-    $scope.ok = function () {
-        $scope.showModal = false;
-    };
-    
-    $scope.cancel = function () {
-        $scope.showModal = false;
-    };
-    
-}]);
 /*app.config(['$stateProvider', '$urlRouterProvider',
     function($stateProvider, $urlRouterProvider) {
         $stateProvider
@@ -79,7 +71,10 @@ app.controller('baseController',['$scope','$state', function($scope, $state){
         .state('guest-abstract', {
             abstract: true,
             views: {
-                '@': { templateUrl: 'partials/toolbar' }
+                '@': { templateUrl: 'partials/toolbar',
+                        controller: 'BaseController',
+                        controllerAs: 'baseCtrl'
+                }
             }
         })
         .state('guest-abstract.home',{
@@ -99,7 +94,7 @@ app.controller('baseController',['$scope','$state', function($scope, $state){
                 'cinemas': {
                   templateUrl: 'partials/cinemas',
                   controller: 'CinemasController',
-                  controllerAs: 'cinemasCtrl1'
+                  controllerAs: 'cinemasCtrl'
               }
             },
               resolve: {
@@ -110,14 +105,26 @@ app.controller('baseController',['$scope','$state', function($scope, $state){
                   }
               }
         })
+        .state('success',{
+            url: '/success',
+            templateUrl: 'partials/successMessage',
+            controller: 'UserController',
+            controllerAs: 'sCtrl'
+        })
+        .state('badToken',{
+            url: '/badToken',
+            templateUrl: 'partials/badtoken',
+           
+        })
         .state('login',{
             url: '/login',
             templateUrl: 'partials/login',
-            controller: 'loginController'
+            controller: 'LoginController',
+            controllerAs: 'loginCtrl'
         })
         .state('registration',{
             url: '/registration',
-            templateUrl: 'partials/register',
+            templateUrl: 'partials/registration',
             controller: 'UserController',
             controllerAs: 'regCtrl'
         });
@@ -129,8 +136,5 @@ app.controller('baseController',['$scope','$state', function($scope, $state){
         self.toCinemas = toCinemas;
         function toCinemas() {
            $state.go('guest-abstract.cinemas');
-        };
-        
-        
-        
+        }
     }]);

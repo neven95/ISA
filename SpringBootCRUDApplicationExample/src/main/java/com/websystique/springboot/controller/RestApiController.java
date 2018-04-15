@@ -19,12 +19,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.websystique.springboot.model.LoginForm;
 //import com.nulabinc.zxcvbn.Strength;
 //import com.nulabinc.zxcvbn.Zxcvbn;
 import com.websystique.springboot.model.User;
 import com.websystique.springboot.service.EmailService;
 import com.websystique.springboot.service.UserService;
 import com.websystique.springboot.util.CustomErrorType;
+
+import javassist.bytecode.StackMap.Writer;
 
 @RestController
 @RequestMapping("/api")
@@ -59,6 +62,32 @@ public class RestApiController {
 			// You many decide to return HttpStatus.NOT_FOUND
 		}
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+	}
+	
+	// ------- Authenticate user when loging in
+	
+	@RequestMapping(value = "/authenticate/{username}", method = RequestMethod.POST)
+	public ResponseEntity<?> getLoginUser(@PathVariable("username") String username,Writer writer,@RequestBody LoginForm loginForm) {
+		System.out.println("************* usao je i poslao username: " + username);
+		//Enumeration<String> atributi =  request.getAttributeNames();
+		System.out.println(loginForm);
+		
+		/*if (users.isEmpty()) {
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+			// You many decide to return HttpStatus.NOT_FOUND
+		}*/
+		User user = userService.findByUsername(loginForm.getUsername());
+		if(user == null){
+			return new ResponseEntity(new CustomErrorType("User with username " +  loginForm.getUsername()
+					+ " not found"), HttpStatus.NOT_FOUND);
+		}else if(!user.getPassword().equals(loginForm.getPassword())){
+			return new ResponseEntity(new CustomErrorType("Wrong password for user with username: " +  loginForm.getUsername()
+			), HttpStatus.NOT_FOUND);
+		}else if(user.isEnabled() == false){
+			return new ResponseEntity(new CustomErrorType("User with username " +  loginForm.getUsername()
+			+	"not found"	), HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<LoginForm>(loginForm, HttpStatus.OK);
 	}
 
 	// -------------------Retrieve Single User------------------------------------------
@@ -117,7 +146,17 @@ public class RestApiController {
 	@RequestMapping(value = "/confirm/{token}", method = RequestMethod.GET)
 	public RedirectView confirmUser(@PathVariable("token") String token, RedirectAttributes redirectAttributes){
 		User user = userService.findByConfirmationToken(token);
-		logger.info("Activating user profile with id {}.", user.getId());
+		System.out.println("Usao u confirm************************************" + user);
+		//logger.info("Activating user profile with id {}.", user.getId());
+		if(user == null){
+			HttpHeaders responseHeaders = new HttpHeaders();
+			responseHeaders.set("MyResponseHeader", "MyValue");
+			
+			RedirectView redirectView = new RedirectView();
+		    redirectView.setUrl("http://localhost:8080/SpringBootCRUDApp/#!/badToken");
+		    System.out.println("Usao u metodu i saljem ga na uri:http://localhost:8080/SpringBootCRUDApp/badToken"  );
+		    return redirectView;
+		}
 		
 		user.setEnabled(true);
 		userService.saveUser(user);

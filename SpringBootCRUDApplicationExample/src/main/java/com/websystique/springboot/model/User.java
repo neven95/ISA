@@ -24,9 +24,19 @@ public class User implements Serializable{
 	private String email;
 
 	@Column(name="password")
-	
 	private String password;
 	
+	@Column(name="grad")
+	private String city;
+	
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
 	public boolean isEnabled() {
 		return enabled;
 	}
@@ -129,7 +139,7 @@ public Long getId() {
 		
 	}
 	
-	public User(String ime, String prezime, String email, String password, String phoneNumber, String username) {
+	public User(String ime, String prezime, String email, String password, String phoneNumber, String username, String city) {
 	super();
 	this.firstName = ime;
 	this.lastName = prezime;
@@ -137,6 +147,7 @@ public Long getId() {
 	this.password = password;
 	this.phoneNumber = phoneNumber;
 	this.username = username;
+	this.city = city;
 }
 
 	
@@ -145,7 +156,7 @@ public Long getId() {
 	public String toString() {
 		return "User [firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", password=" + password
 				+ ", phoneNumber=" + phoneNumber + ", username=" + username + ", enabled=" + enabled
-				+ ", confirmationToken=" + confirmationToken + "]";
+				+ ", confirmationToken=" + confirmationToken + ", city=" + city +  "]";
 	}
 
 	public String getFirstName() {

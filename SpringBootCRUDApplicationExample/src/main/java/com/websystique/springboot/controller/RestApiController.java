@@ -92,13 +92,13 @@ public class RestApiController {
 
 	// -------------------Retrieve Single User------------------------------------------
 
-	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> getUser(@PathVariable("id") long id) {
-		logger.info("Fetching User with id {}", id);
-		User user = userService.findById(id);
+	@RequestMapping(value = "/user/{username}", method = RequestMethod.GET)
+	public ResponseEntity<?> getUser(@PathVariable("username") String username) {
+		logger.info("Fetching User with username {}", username);
+		User user = userService.findByUsername(username);
 		if (user == null) {
-			logger.error("User with id {} not found.", id);
-			return new ResponseEntity(new CustomErrorType("User with id " + id 
+			logger.error("User with username {} not found.", username);
+			return new ResponseEntity(new CustomErrorType("User with username " + username 
 					+ " not found"), HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<User>(user, HttpStatus.OK);
@@ -111,9 +111,9 @@ public class RestApiController {
 		logger.info("Creating User : {}", user);
 		System.out.println(user);
 		if (userService.isUserExist(user)) {
-			logger.error("Unable to create. A User with name {} already exist", user.getFirstName());
-			return new ResponseEntity(new CustomErrorType("Unable to create. A User with name " + 
-			user.getFirstName() + " already exist."),HttpStatus.CONFLICT);
+			logger.error("Unable to create. A User with username {} already exist", user.getUsername());
+			return new ResponseEntity(new CustomErrorType("Unable to create. A User with username " + 
+			user.getUsername() + " already exist."),HttpStatus.CONFLICT);
 		}
 		
 	//	Zxcvbn passwordCheck = new Zxcvbn();

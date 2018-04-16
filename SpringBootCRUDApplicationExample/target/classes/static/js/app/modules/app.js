@@ -144,10 +144,83 @@ app.constant('urls', {
             templateUrl: 'partials/registration',
             controller: 'UserController',
             controllerAs: 'regCtrl'
-        });
+        })
+        .state('guest-abstract.profile-abstract', {
+            url: '/:username',
+            abstract: true,
+            views: {
+                'profilePage': {
+                  templateUrl: 'partials/profilePage'
+                 // controller: 'ProfileController',
+                 // controllerAs: 'profCtrl'
+              }
+            }   
+        })
+        .state('guest-abstract.profile-abstract.profile-informations', {
+            url: '/informations',
+            resolve: {
+                initialData: ['$stateParams', 'UserService',function($stateParams, UserService){
+                      return UserService.getUser($stateParams.username);   
+                  }]
+            },
+            views: {
+                'informations': {
+                  templateUrl: 'partials/profileInformations',
+                  controller: 'ProfileController',
+                  controllerAs: 'profCtrl'
+              }
+            }  
+        })
+        .state('guest-abstract.profile-abstract.profile-friends', {
+            url: '/friends',
+            resolve: {
+                initialData: ['$stateParams', 'UserService',function($stateParams, UserService){
+                      return UserService.getUser($stateParams.username);   
+                  }]
+            },
+            views: {
+                'friends': {
+                  template: '<strong>Ej drugovii</strong>',
+                //  controller: 'ProfileController',
+                //  controllerAs: 'profCtrl'
+              }
+            }  
+        })
+        .state('guest-abstract.profile-abstract.profile-settings', {
+            url: '/settings',
+            resolve: {
+                initialData: ['$stateParams', 'UserService',function($stateParams, UserService){
+                      return UserService.getUser($stateParams.username);   
+                  }]
+            },
+            views: {
+                'settings': {
+                  templateUrl: 'partials/editProfile',
+                  controller: 'ProfileController',
+                  controllerAs: 'profCtrl'
+              }
+            }  
+        })
         $urlRouterProvider.otherwise('/home');
     }]);
+/*app.config(['$stateProvider', '$urlRouterProvider',
+    function($stateProvider, $urlRouterProvider){
+        $stateProvider
+        .state('user-abstract', {
+            abstract: true,
+            views: {
+                '@': { 
+                    templateUrl: 'partials/toolbar',
+                    controller: BaseController,
+                    controllerAs: baseUsrController
+            }
+            }
+        })
+        .state('user-abstract.', {
 
+        });
+
+}]);*/
     app.controller('choosingController',['$scope','$state', function($scope, $state){
         var self = this;
         self.toCinemas = toCinemas;

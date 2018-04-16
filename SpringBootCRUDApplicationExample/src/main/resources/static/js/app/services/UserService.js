@@ -37,7 +37,7 @@ angular.module('crudApp').factory('UserService',
                 return $localStorage.users;
             }
 
-            function getUser(id) {
+          /*  function getUser(id) {
                 console.log('Fetching User with id :'+id);
                 var deferred = $q.defer();
                 $http.get(urls.USER_SERVICE_API + id)
@@ -52,8 +52,20 @@ angular.module('crudApp').factory('UserService',
                         }
                     );
                 return deferred.promise;
-            }
-
+            }*/
+            function getUser (id) {
+                var userData = $http.get(urls.USER_SERVICE_API + id)
+                    .then(function(response) {
+                        return response.data;
+                    }, function(error) {
+                        console.log("Error occured while initializing user data!");
+                    });
+    
+                return $q.all([userData])
+                    .then(function(results) {
+                        return {   userData: results[0] };        
+            });
+        }
             function createUser(user) {
                 console.log('Creating User');
                 console.log(user);

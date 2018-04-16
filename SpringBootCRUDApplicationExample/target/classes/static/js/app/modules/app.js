@@ -91,20 +91,20 @@ app.constant('urls', {
         })
         .state('guest-abstract.cinemas',{
             url: '/cinemas',
+            resolve: {
+                initialData: function(CinemasService){
+                      
+                        //console.log(CinemasService.loadAllCinemas());
+                      return CinemasService.initialCinemasCtrlData(); 
+                  }
+            },
             views: {
                 'cinemas': {
                   templateUrl: 'partials/cinemas',
                   controller: 'CinemasController',
                   controllerAs: 'cinemasCtrl'
               }
-            },
-              resolve: {
-                initialData: function(CinemasService){
-                      
-                        //console.log(CinemasService.loadAllCinemas());
-                      return CinemasService.loadAllCinemas(); 
-                  }
-              }
+            }
         })
         .state('guest-abstract.theatres',{
             url: '/theatres',

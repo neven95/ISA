@@ -2,11 +2,11 @@
 
 angular.module('crudApp').controller('CinemasController', 
     ['$scope', '$state', 'initialData', 'CinemasService',
-        function( $scope, $state, CinemasService) {
+        function( $scope, $state, initialData, CinemasService) {
             var self = this;
             //self.provera = provera;
             //self.cinemasList = initialData;
-            self.loadAllCinemas = loadAllCinemas;
+            self.cinemasList = initialData.cinemasList;
             //self.cinemasList = initialData;
             //self.brojac = brojac;
             //brojac = 0;
@@ -15,9 +15,9 @@ angular.module('crudApp').controller('CinemasController',
                 console.log("CinemasController: function provera()");
             }
 
-            function loadAllCinemas() {
+            /*function loadAllCinemas() {
                 console.log(11);
                 CinemasService.loadAllCinemas();
-            }
+            }*/
 
         }]);

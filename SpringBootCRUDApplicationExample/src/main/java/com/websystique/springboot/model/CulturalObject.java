@@ -33,6 +33,13 @@ public class CulturalObject {
 	
 	@Column(name="tip")
 	private String type;
+	
+	@Column(name="objekat_slika")
+	private String imageSrc;
+
+	@Column(name="grad")
+	private String city;
+	
 
 	/*============================ getters and setters =============================*/
 	
@@ -91,15 +98,31 @@ public class CulturalObject {
 	public void setType(String type) {
 		this.type = type;
 	}
+	
+	public String getImage() {
+		return imageSrc;
+	}
+
+	public void setImage(String imageSrc) {
+		this.imageSrc = imageSrc;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
 
 	@Override
 	public String toString() {
 		return "CulturalObject [id=" + id + ", name=" + name + ", adress=" + adress + ", width=" + width + ", length="
-				+ length + ", promoDescription=" + promoDescription + ", type=" + type + "]";
+				+ length + ", promoDescription=" + promoDescription + ", type=" + type + ", imageSrc=" + imageSrc +  "]";
 	}
 
 	public CulturalObject(Long id, String name, String adress, String width, String length, String promoDescription,
-			String type) {
+			String type, String imageSrc, String city) {
 		this.id = id;
 		this.name = name;
 		this.adress = adress;
@@ -107,6 +130,8 @@ public class CulturalObject {
 		this.length = length;
 		this.promoDescription = promoDescription;
 		this.type = type;
+		this.imageSrc = imageSrc;
+		this.city = city;
 	}
 	public CulturalObject(){
 		

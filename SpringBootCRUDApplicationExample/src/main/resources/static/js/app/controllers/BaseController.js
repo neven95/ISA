@@ -6,6 +6,6 @@ angular.module('crudApp').controller('BaseController',['$state', 'Authentication
     function logout(){
         console.log("Logout...")
         AuthenticationService.ClearCredentials();
-        $state.reload();
+        $state.go('guest-abstract.home');
     }
 }]);

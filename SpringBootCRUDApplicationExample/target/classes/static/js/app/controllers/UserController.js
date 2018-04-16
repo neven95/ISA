@@ -3,7 +3,7 @@
 angular.module('crudApp').controller('UserController',
     ['UserService', '$scope','$state',   function( UserService, $scope, $state) {
         
-        var self = this;
+        
         self.user = {};
         self.users=[];
         self.user.enabled = false;
@@ -28,10 +28,7 @@ angular.module('crudApp').controller('UserController',
         self.dataLoading = false;
         self.onlyIntegers = /^\d+$/;
         self.onlyNumbers = /^\d+([,.]\d+)?$/;
-        function glupaFunkcija() {
-            console.log('Usao sam u kontroler');
-           // $state.go('login');
-        }
+       
         function submit() {
             console.log('Submitting');
             self.dataLoading = true;

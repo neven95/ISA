@@ -169,7 +169,7 @@ public class RestApiController {
 	}
 	// ------------------- Update a User ------------------------------------------------
 
-/*	@RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<?> updateUser(@PathVariable("id") long id, @RequestBody User user) {
 		logger.info("Updating User with id {}", id);
 
@@ -179,15 +179,38 @@ public class RestApiController {
 			logger.error("Unable to update. User with id {} not found.", id);
 			return new ResponseEntity(new CustomErrorType("Unable to upate. User with id " + id + " not found."),
 					HttpStatus.NOT_FOUND);
+		}else if(!currentUser.getUsername().equals(user.getUsername())){
+			if(!currentUser.getEmail().equals(user.getEmail())){
+				User temp = userService.findByUsername(user.getUsername());
+				User temp1 = userService.findByEmail(user.getEmail());
+				if((temp != null) && (temp1 != null)){
+					return new ResponseEntity(new CustomErrorType("Unable to upate. User with username " + user.getUsername() +", and email "+ user.getEmail() + ", already exists."),
+							HttpStatus.CONFLICT);
+				}
+			}
+			User temp = userService.findByUsername(user.getUsername());
+			if(temp != null){
+				return new ResponseEntity(new CustomErrorType("Unable to upate. User with username " + user.getUsername() + " already exists."),
+						HttpStatus.CONFLICT);
+			}
+		}else if(!currentUser.getEmail().equals(user.getEmail())){
+			User temp = userService.findByEmail(user.getEmail());
+			if(temp != null){
+				return new ResponseEntity(new CustomErrorType("Unable to upate. User with email " + user.getEmail() + " already exists."),
+						HttpStatus.CONFLICT);
+			}
 		}
-
-		currentUser.setName(user.getIme());
-		currentUser.setAge(user.getAge());
-		currentUser.setSalary(user.getSalary());
-
+		
+		
+		currentUser.setCity(user.getCity());
+		currentUser.setEmail(user.getEmail());
+		currentUser.setFirstName(user.getFirstName());
+		currentUser.setLastName(user.getLastName());
+		currentUser.setPhoneNumber(user.getPhoneNumber());
+		currentUser.setUsername(user.getUsername());
 		userService.updateUser(currentUser);
 		return new ResponseEntity<User>(currentUser, HttpStatus.OK);
-	}*/
+	}
 
 	// ------------------- Delete a User-----------------------------------------
 

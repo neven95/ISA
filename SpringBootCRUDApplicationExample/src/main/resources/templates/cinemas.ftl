@@ -7,7 +7,11 @@ Cinemas:
                 <div class="card text-white bg-dark mb-3" style="width: 18rem;">
                     <img class="card-img-top" src="images/cinemas" alt="Card image cap">
                     <div class="card-body">
-                        <a href="#"><h5 class="card-title">{{cinema.name}}</h5></a>
+                        <h5 class="card-title" >{{cinema.name}}
+                            <button ng-click="cinemasCtrl.setMarker(my-map, cinema.width, cinema.length, cinema.name, cinema.promoDescription)">
+                                Show on map
+                            </button>
+                        </h5>
                         <p class="card-text">{{cinema.promoDescription}}</p>
                         <p class="card-text">{{cinema.adress}}, {{cinema.city}}</p>
                     </div>

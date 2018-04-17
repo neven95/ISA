@@ -20,25 +20,30 @@ angular.module('crudApp').controller('CinemasController',
                 CinemasService.loadAllCinemas();
             }*/
 
-            $scope.loc = { lat: 23, lon: 79 };
+            self.loc = { lat: 23, lon: 79 };
 
-            $scope.gotoLocation = function (lat, lon) {
-                if ($scope.lat != lat || $scope.lon != lon) {
-                    $scope.loc = { lat: lat, lon: lon };
-                    if (!$scope.$$phase) $scope.$apply("loc");
+            self.gotoLocation = function (lat, lon) {
+                if ($self.lat != lat || self.lon != lon) {
+                    $self.loc = { lat: lat, lon: lon };
+                    if (!self.$$phase) self.$apply("loc");
                 }
             };
 
             // geo-coding
-            $scope.search = "";
-            $scope.geoCode = function () {
-                if ($scope.search && $scope.search.length > 0) {
+            self.search = "";
+            self.geoCode = function (latitude, longitude) {
+                self.lat = latitude;
+                self.lon = longitude;
+                console.log(self.lat);
+                console.log(self.lon);
+                console.log("Ispisi nesto");
+                if (self.search && self.search.length > 0) {
                     if (!this.geocoder) this.geocoder = new google.maps.Geocoder();
-                    this.geocoder.geocode({ 'address': $scope.search }, function (results, status) {
+                    this.geocoder.geocode({ 'address': self.search }, function (results, status) {
                         if (status == google.maps.GeocoderStatus.OK) {
                             var loc = results[0].geometry.location;
-                            $scope.search = results[0].formatted_address;
-                            $scope.gotoLocation(loc.lat(), loc.lng());
+                            self.search = results[0].formatted_address;
+                            self.gotoLocation(loc.lat(), loc.lng());
                         } else {
                             alert("Sorry, this search produced no results.");
                         }

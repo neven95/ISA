@@ -22,8 +22,12 @@ app.directive('myMap', function() {
         }    
         
         // place a marker
-        function setMarker(map, position, title, content) {
+        function setMarker(map, lat, lon, title, content) {
+            console.log("Set marker");
+            console.log(lat);
+            console.log(lon);
             var marker;
+            var position = new google.maps.LatLng(lat, lon);
             var markerOptions = {
                 position: position,
                 map: map,
@@ -50,12 +54,46 @@ app.directive('myMap', function() {
         
         // show the map and place some markers
         initMap();
+        
+        // setMarker(map, new google.maps.LatLng(51.508515, -0.125487), 'London', 'Just some content');
+        // setMarker(map, new google.maps.LatLng(52.370216, 4.895168), 'Amsterdam', 'More content');
+        // setMarker(map, new google.maps.LatLng(48.856614, 2.352222), 'Paris', 'Text here');
     };
     
     return {
         restrict: 'A',
         template: '<div id="gmaps"></div>',
         replace: true,
+        controller: function($scope){
+            
+                console.log("Set marker");
+                console.log(lat);
+                console.log(lon);
+                var marker;
+                var position = new google.maps.LatLng(51.508515, -0.125487);
+                var markerOptions = {
+                    position: position,
+                    map: map,
+                    title: title,
+                    icon: 'https://maps.google.com/mapfiles/ms/icons/green-dot.png'
+                };
+
+                marker = new google.maps.Marker(markerOptions);
+                markers.push(marker); // add marker to array
+                
+                google.maps.event.addListener(marker, 'click', function () {
+                    // close window if not undefined
+                    if (infoWindow !== void 0) {
+                        infoWindow.close();
+                    }
+                    // create new window
+                    var infoWindowOptions = {
+                        content: content
+                    };
+                    infoWindow = new google.maps.InfoWindow(infoWindowOptions);
+                    infoWindow.open(map, marker);
+                });
+        },
         link: link
     };
 });

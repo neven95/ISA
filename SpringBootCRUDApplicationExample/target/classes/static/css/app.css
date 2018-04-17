@@ -36,3 +36,8 @@ body, .form-control{
   padding: 10px;
   align-content: center;
 }
+
+#gmaps {
+  width: 450px;
+  height: 450px;
+}

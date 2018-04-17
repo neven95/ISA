@@ -77,12 +77,12 @@
 
     <ul class="navbar-nav ml-auto" ng-if="globals.currentUser.username!=null">
         <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle"  id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fas fa-user-circle"></i> {{globals.currentUser.username}}
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="#">Your profile</a>
-          <a class="dropdown-item" href="#">Settings</a>
+          <a class="dropdown-item" ui-sref="guest-abstract.profile-abstract.profile-overview({username:globals.currentUser.username})">Your profile</a>
+          <a class="dropdown-item" ui-sref="guest-abstract.settings-abstract.general({username: globals.currentUser.username})">Settings</a>
           <a  class="dropdown-item" href="#" ng-click="baseCtrl.logout()"><i class="fas fa-sign-out-alt"></i> Log Out</a>
         </div>
       </li>
@@ -101,3 +101,4 @@
    <div ui-view='cinemas'></div>
    <div ui-view='theatres'></div>
    <div ui-view='profilePage'></div>
+   <div ui-view='settingsPage'></div>

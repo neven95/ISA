@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('crudApp').controller('ProfileController',
-    ['UserService','initialData', '$scope','$state',   function( UserService, initialData, $scope, $state) {
+    ['UserService','initialData', '$scope','$state', 'AuthenticationService',   function( UserService, initialData, $scope, $state, AuthenticationService) {
         var self = this;
         self.userData = initialData.userData;
 
@@ -33,7 +33,7 @@ angular.module('crudApp').controller('ProfileController',
                         self.errorMessage='';
                         self.done = true;
                         self.dataLoading = false;
-                        $rootScope.globals.currentUser.username = response.username;
+                        AuthenticationService.SetCredentials(response.username, response.password, response.type);
                         $state.go('guest-abstract.settings-abstract.general', {username: response.username});
                     },
                     function(errResponse){

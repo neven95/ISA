@@ -156,16 +156,16 @@ app.constant('urls', {
               }
             }   
         })
-        .state('guest-abstract.profile-abstract.profile-informations', {
-            url: '/informations',
+        .state('guest-abstract.profile-abstract.profile-overview', {
+            url: '/overview',
             resolve: {
                 initialData: ['$stateParams', 'UserService',function($stateParams, UserService){
                       return UserService.getUser($stateParams.username);   
                   }]
             },
             views: {
-                'informations': {
-                  templateUrl: 'partials/profileInformations',
+                'overview': {
+                  templateUrl: 'partials/profileOverview',
                   controller: 'ProfileController',
                   controllerAs: 'profCtrl'
               }
@@ -186,19 +186,51 @@ app.constant('urls', {
               }
             }  
         })
-        .state('guest-abstract.profile-abstract.profile-settings', {
+        .state('guest-abstract.settings-abstract', {
             url: '/settings',
+            abstract: true,
+            views: {
+                'settingsPage': {
+                  templateUrl: 'partials/settingsPage'
+                 // controller: 'ProfileController',
+                 // controllerAs: 'profCtrl'
+              }
+            }   
+        })
+        .state('guest-abstract.settings-abstract.general', {
+            url: '/general',
             resolve: {
                 initialData: ['$stateParams', 'UserService',function($stateParams, UserService){
                       return UserService.getUser($stateParams.username);   
                   }]
             },
             views: {
-                'settings': {
-                  templateUrl: 'partials/editProfile',
+                'general': {
+                  templateUrl: 'partials/generalSettings',
                   controller: 'ProfileController',
-                  controllerAs: 'profCtrl'
+                  controllerAs: 'settingsCtrl'
               }
+            },
+            params: {
+                username: null
+            }  
+        })
+        .state('guest-abstract.settings-abstract.security', {
+            url: '/security',
+            resolve: {
+                initialData: ['$stateParams', 'UserService',function($stateParams, UserService){
+                      return UserService.getUser($stateParams.username);   
+                  }]
+            },
+            views: {
+                'general': {
+                  templateUrl: 'partials/securitySettings',
+                  controller: 'ProfileController',
+                  controllerAs: 'securityCtrl'
+              }
+            },
+            params: {
+                username: null
             }  
         })
         $urlRouterProvider.otherwise('/home');

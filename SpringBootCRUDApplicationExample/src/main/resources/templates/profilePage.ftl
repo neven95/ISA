@@ -38,23 +38,14 @@
     <div class="row">
         <div class="col-3 float-left " role="navigation">
             <nav class="nav flex-column">
-                <a class="nav-link active" ui-sref="guest-abstract.profile-abstract.profile-informations({username:globals.currentUser.username})">Informations</a>
+                <a class="nav-link active" ui-sref="guest-abstract.profile-abstract.profile-overview({username:globals.currentUser.username})">Overview</a>
                 <a class="nav-link" ui-sref="guest-abstract.profile-abstract.profile-friends({username:globals.currentUser.username})">Friends</a>
-                <a class="nav-link" ui-sref="guest-abstract.profile-abstract.profile-settings({username:globals.currentUser.username})">Settings</a>
             </nav>
         </div>
         <div class="col-9 float-left">
-            <div ui-view='informations'></div>
+            <div ui-view='overview'></div>
             <div ui-view='friends'></div>
-            <div ui-view='settings'></div>
+            
         </div>
     </div>
-
 </div>
-
-<nav class="nav flex-column">
-  <a class="nav-link active" href="#">Active</a>
-  <a class="nav-link" href="#">Link</a>
-  <a class="nav-link" href="#">Link</a>
-  <a class="nav-link disabled" href="#">Disabled</a>
-</nav>

@@ -94,7 +94,7 @@ angular.module('crudApp').factory('UserService',
                             deferred.resolve(response.data);
                         },
                         function (errResponse) {
-                            console.error('Error while updating User with id :'+id);
+                            console.error(errResponse.data.errorMessage);
                             deferred.reject(errResponse);
                         }
                     );

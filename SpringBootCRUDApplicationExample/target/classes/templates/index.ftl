@@ -34,8 +34,8 @@
         <script src="http://maps.googleapis.com/maps/api/js?sensor=false&language=en"></script>  -->
         <script defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAX0VfwVTM6-bKqi2yGRZZinO7ppKGAJBw">
-        </script>   
-        
+        </script>
+    
         <!-- Services -->
         <script src="js/app/services/UserService.js"></script>
         <script src="js/app/services/authentication/AuthenticationService.js"> </script>

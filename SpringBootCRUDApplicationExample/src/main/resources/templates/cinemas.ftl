@@ -8,7 +8,7 @@ Cinemas:
                     <img class="card-img-top" src="images/cinemas" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title" >{{cinema.name}}
-                            <button ng-click="cinemasCtrl.setMarker(my-map, cinema.width, cinema.length, cinema.name, cinema.promoDescription)">
+                            <button ng-click="cinemasCtrl.setMarker(cinema.width, cinema.length, cinema.name, cinema.promoDescription)">
                                 Show on map
                             </button>
                         </h5>
@@ -18,7 +18,7 @@ Cinemas:
                 </div>
             </div>
         </div>
-        <div class="col-8" my-map="">
+        <div my-map="">
         </div>
     </div>
 </div>

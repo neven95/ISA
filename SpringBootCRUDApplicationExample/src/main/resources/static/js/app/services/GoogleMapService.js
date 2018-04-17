@@ -22,12 +22,12 @@ app.directive('myMap', function() {
         }    
         
         // place a marker
-        function setMarker(map, lat, lon, title, content) {
+        function setMarker(lat, lon, title, content) {
             console.log("Set marker");
             console.log(lat);
             console.log(lon);
             var marker;
-            var position = new google.maps.LatLng(lat, lon);
+            var position = new google.maps.LatLng(parseFloat(lat), parseFloat(lon));
             var markerOptions = {
                 position: position,
                 map: map,
@@ -64,36 +64,6 @@ app.directive('myMap', function() {
         restrict: 'A',
         template: '<div id="gmaps"></div>',
         replace: true,
-        controller: function($scope){
-            
-                console.log("Set marker");
-                console.log(lat);
-                console.log(lon);
-                var marker;
-                var position = new google.maps.LatLng(51.508515, -0.125487);
-                var markerOptions = {
-                    position: position,
-                    map: map,
-                    title: title,
-                    icon: 'https://maps.google.com/mapfiles/ms/icons/green-dot.png'
-                };
-
-                marker = new google.maps.Marker(markerOptions);
-                markers.push(marker); // add marker to array
-                
-                google.maps.event.addListener(marker, 'click', function () {
-                    // close window if not undefined
-                    if (infoWindow !== void 0) {
-                        infoWindow.close();
-                    }
-                    // create new window
-                    var infoWindowOptions = {
-                        content: content
-                    };
-                    infoWindow = new google.maps.InfoWindow(infoWindowOptions);
-                    infoWindow.open(map, marker);
-                });
-        },
         link: link
     };
 });

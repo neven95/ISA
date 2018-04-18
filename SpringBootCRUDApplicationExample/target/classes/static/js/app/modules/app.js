@@ -212,7 +212,7 @@ app.constant('urls', {
               }
             },
             params: {
-                username: null
+                username:null
             }  
         })
         .state('guest-abstract.settings-abstract.security', {

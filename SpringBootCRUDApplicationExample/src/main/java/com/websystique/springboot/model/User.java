@@ -1,18 +1,70 @@
 package com.websystique.springboot.model;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
-import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name="korisnik")
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class,property="@id", scope = User.class)
 public class User implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	@Column(name="id")
 	private Long id;
+	
+	@JsonIgnoreProperties("friendsOf")
+	@ManyToMany(fetch = FetchType.LAZY,cascade={CascadeType.PERSIST, CascadeType.MERGE,
+			CascadeType.DETACH,CascadeType.REFRESH})
+	@JoinTable(
+			name="prijatelji1",
+			joinColumns=@JoinColumn(name="id_prijatelja1"),
+			inverseJoinColumns=@JoinColumn(name="id_prijatelja2")
+			)
+	private List<User> friends;
+	
+	@JsonIgnoreProperties("friends")
+	@ManyToMany(fetch = FetchType.LAZY,cascade={CascadeType.PERSIST, CascadeType.MERGE,
+			CascadeType.DETACH,CascadeType.REFRESH})
+	@JoinTable(
+			name="prijatelji1",
+			joinColumns=@JoinColumn(name="id_prijatelja2"),
+			inverseJoinColumns=@JoinColumn(name="id_prijatelja1")
+			)
+	private List<User> friendsOf;
+	
+	public List<User> getFriendsOf() {
+		return friendsOf;
+	}
+
+	public void setFriendsOf(List<User> friendsOf) {
+		this.friendsOf = friendsOf;
+	}
+
+	public List<User> getFriends() {
+		return friends;
+	}
+
+	public void setFriends(List<User> friends) {
+		this.friends = friends;
+	}
 
 	@Column(name="ime")
 	private String firstName;
@@ -146,6 +198,12 @@ public Long getId() {
 	
 
 */
+	public void addStudent(User theUser){
+		if(friends == null){
+			friends = new ArrayList<>();
+		}
+		friends.add(theUser);
+	}
 	public User(){
 		
 	}

@@ -59,6 +59,9 @@
         <a class="nav-link" ng-if="globals.currentUser.username!=null" ui-sref="guest-abstract.profile-abstract.profile-overview({username:globals.currentUser.username})">Profile <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" ng-if="globals.currentUser.username!=null" ui-sref="listaPrijatelja({username:globals.currentUser.username})">Lista prijatelja <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" ui-sref="guest-abstract.cinemas">Cinemas</a>
       </li>
       <li class="nav-item">

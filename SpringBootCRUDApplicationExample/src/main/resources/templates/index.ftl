@@ -26,13 +26,23 @@
         <script src="js/lib/ngStorage.min.js"></script>
        
         <script src="js/app/modules/app.js"></script>
-        
+
+        <script src="js/app/services/GoogleMapService.js"></script>
+
+        <!-- Google Map Api -->
+        <#--  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.3/angular.min.js"></script>
+        <script src="http://maps.googleapis.com/maps/api/js?sensor=false&language=en"></script>  -->
+        <script defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAX0VfwVTM6-bKqi2yGRZZinO7ppKGAJBw">
+        </script>
+    
         <!-- Services -->
         <script src="js/app/services/UserService.js"></script>
         <script src="js/app/services/authentication/AuthenticationService.js"> </script>
         <script src="js/app/services/UserService.js"></script>
         <script src="js/app/services/CinemasService.js"></script>
         <script src="js/app/services/TheatresService.js"></script>
+        
         
         <!-- Modules -->
         <script src="js/app/modules/authentication/login.js"></script>

@@ -5,27 +5,24 @@ angular.module('crudApp').factory('CinemasService',
         function($localStorage, $http, $q, urls) {
 
             var self = this;
-           // self.loadAllCinemas = loadAllCinemas;
+            
+            var cinemaFactoryMethods = {};
 
-            var factory = {};
+            cinemaFactoryMethods.initialCinemasCtrlData = function() {
+                var cinemasList = $http.get(urls.CINEMAS_SERVICE_API)
+                    .then(function(response) {
+                        return response.data;
+                    }, 
+                        function(responseErr) {
+                            console.log("Error occured while initializing list of all cinemas!");
+                    });
 
-            factory.loadAllCinemas = function() {
-                console.log("Fetching cinemas...");
+                return $q.all([cinemasList])
+                    .then(function(results) {
+                        return { cinemasList: results[0] };
+                    });
 
-                $http.get(urls.CINEMAS_SERVICE_API)
-                    .then(
-                        function(response) {
-                            console.log('Fetched successfully all cinemas');
-                            console.log(response.data);
-                            return response.data;
-                        }, 
-                        function(errResponse) {
-                            console.error('Error while loading cinemas');
-                            //deferred.reject(errResponse);
-                            return errResponse;
-                        }
-                    );
             }
 
-            return factory;
+            return cinemaFactoryMethods;
         }])

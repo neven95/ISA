@@ -233,6 +233,21 @@ app.constant('urls', {
                 username: null
             }  
         })
+        .state('guest-abstract.profile-abstract.profile-usersList', {
+            url: '/usersList',
+            resolve: {
+                initialData: ['UserService', function(UserService){
+                      return UserService.loadAllUsers();   
+                  }]
+            },
+            views:{
+                'usersList': {
+                    templateUrl: "partials/usersList",
+                    controller: "usersListController",
+                    controllerAs: "usersCtrl"
+                }
+            }
+        })
         $urlRouterProvider.otherwise('/home');
     }]);
 /*app.config(['$stateProvider', '$urlRouterProvider',

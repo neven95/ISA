@@ -17,13 +17,14 @@ angular.module('crudApp').factory('UserService',
 
             function loadAllUsers() {
                 console.log('Fetching all users');
-                var deferred = $q.defer();
-                $http.get(urls.USER_SERVICE_API)
+                //var deferred = $q.defer();
+                var usersList = $http.get(urls.USER_SERVICE_API)
                     .then(
                         function (response) {
                             console.log('Fetched successfully all users');
                             $localStorage.users = response.data;
-                            deferred.resolve(response);
+                           // deferred.resolve(response);
+                          // return response.data;
                         },
                         function (errResponse) {
                             console.error('Error while loading users');
@@ -31,6 +32,10 @@ angular.module('crudApp').factory('UserService',
                         }
                     );
                 return deferred.promise;
+                /*return $q.all([usersList])
+                    .then(function(results) {
+                        return { usersList: results[0] };
+                    });*/
             }
 
             function getAllUsers(){

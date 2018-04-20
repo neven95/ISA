@@ -18,7 +18,7 @@ Theatres:
                 </div>
             </div>
         </div>
-        <div my-map="">
+        <div my-map="" class="col-8">
         </div>
     </div>
 </div>

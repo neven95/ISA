@@ -208,6 +208,10 @@ public class RestApiController {
 		currentUser.setLastName(user.getLastName());
 		currentUser.setPhoneNumber(user.getPhoneNumber());
 		currentUser.setUsername(user.getUsername());
+		currentUser.setPassword(user.getPassword());
+		currentUser.setType(user.getType());
+		System.out.println(user);
+		System.out.println(currentUser);
 		userService.updateUser(currentUser);
 		return new ResponseEntity<User>(currentUser, HttpStatus.OK);
 	}

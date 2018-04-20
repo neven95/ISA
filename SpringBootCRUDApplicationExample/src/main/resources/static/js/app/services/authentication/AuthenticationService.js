@@ -72,9 +72,7 @@
                     username: username,
                     authdata: authdata,
                     userType: userType         
-                }
-
-                            
+                }                           
             }; 
             console.log("Ovo je rootScope1:");
             console.log($rootScope);

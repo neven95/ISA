@@ -1,19 +1,25 @@
 package com.websystique.springboot.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="kulturni_objekat")
-public class CulturalObject {
+public class CulturalObject implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name="objekatID")
 	private Long id;
 	
 	@Column(name="naziv")
@@ -39,6 +45,10 @@ public class CulturalObject {
 
 	@Column(name="grad")
 	private String city;
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="admin")
+	private User admin;
 	
 
 	/*============================ getters and setters =============================*/
@@ -115,15 +125,23 @@ public class CulturalObject {
 		this.city = city;
 	}
 
-	@Override
-	public String toString() {
-		return "CulturalObject [id=" + id + ", name=" + name + ", adress=" + adress + ", width=" + width + ", length="
-				+ length + ", promoDescription=" + promoDescription + ", type=" + type + ", imageSrc=" + imageSrc +  "]";
+	public User getAdmin() {
+		return admin;
 	}
 
-	public CulturalObject(Long id, String name, String adress, String width, String length, String promoDescription,
+	public void setAdmin(User admin) {
+		this.admin = admin;
+	}
+
+	@Override
+	public String toString() {
+		return "CulturalObject [name=" + name + ", adress=" + adress + ", width=" + width + ", length="
+				+ length + ", promoDescription=" + promoDescription + ", type=" + type + ", imageSrc=" + imageSrc + 
+				"]";
+	}
+	
+	public CulturalObject(String name, String adress, String width, String length, String promoDescription,
 			String type, String imageSrc, String city) {
-		this.id = id;
 		this.name = name;
 		this.adress = adress;
 		this.width = width;
@@ -132,6 +150,7 @@ public class CulturalObject {
 		this.type = type;
 		this.imageSrc = imageSrc;
 		this.city = city;
+		//this.admin = admin;
 	}
 	public CulturalObject(){
 		

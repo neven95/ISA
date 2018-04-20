@@ -2,7 +2,7 @@ app = angular.module('crudApp');
 
 app.directive('myMap', function() {
     // directive link function
-    var link = function(scope, element, attrs) {
+    var link = function($scope, $elem, $attr) {
         var map, infoWindow;
         var markers = [];
         
@@ -17,12 +17,12 @@ app.directive('myMap', function() {
         // init the map
         function initMap() {
             if (map === void 0) {
-                map = new google.maps.Map(element[0], mapOptions);
+                map = new google.maps.Map($elem[0], mapOptions);
             }
         }    
         
         // place a marker
-        function setMarker(lat, lon, title, content) {
+        function setMarker(map, lat, lon, title, content) {
             console.log("Set marker");
             console.log(lat);
             console.log(lon);
@@ -51,17 +51,27 @@ app.directive('myMap', function() {
                 infoWindow.open(map, marker);
             });
         }
-        
+        var clickedMap    = $attr.clickedMap;
+        console.log(clickedMap);
+        $attr.$observe('clickedMap', function(value) {
+            console.log(value);
+         });
         // show the map and place some markers
         initMap();
-        
-        // setMarker(map, new google.maps.LatLng(51.508515, -0.125487), 'London', 'Just some content');
+        //console.log(scope.clickedMap);
+       /* if($scope.showMap){
+         setMarker(map, $scope.longitude, $scope.latitude, 'London', 'Just some content');
         // setMarker(map, new google.maps.LatLng(52.370216, 4.895168), 'Amsterdam', 'More content');
         // setMarker(map, new google.maps.LatLng(48.856614, 2.352222), 'Paris', 'Text here');
+        }*/
     };
     
     return {
-        restrict: 'A',
+        restrict: 'E',
+        scope: {
+            clickedMap: '@clickedMap',
+           
+          },
         template: '<div id="gmaps"></div>',
         replace: true,
         link: link

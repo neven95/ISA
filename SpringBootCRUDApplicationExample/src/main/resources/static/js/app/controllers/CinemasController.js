@@ -14,13 +14,23 @@ angular.module('crudApp').controller('CinemasController',
             self.provera = function() {
                 console.log("CinemasController: function provera()");
             }
-
+            self.showMarker = false;
+            self.clickedCinema = null;
+            self.enableMarker = function(cinema){
+                self.showMarker = true;
+                self.clickedCinema = cinema;
+            }
             /*function loadAllCinemas() {
                 console.log(11);
                 CinemasService.loadAllCinemas();
             }*/
 
             self.loc = { lat: 23, lon: 79 };
+
+            self.openForm = function() {
+                console.log("Open form...");
+                $state.go("guest-abstract.cinemas.registerCinema");
+            }
 
             self.gotoLocation = function (lat, lon) {
                 if ($self.lat != lat || self.lon != lon) {

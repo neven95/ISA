@@ -53,13 +53,19 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" ui-sref="guest-abstract.home">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Cinemas</a>
+        <a class="nav-link" ng-if="globals.currentUser.username!=null" ui-sref="guest-abstract.profile-abstract.profile-overview({username:globals.currentUser.username})">Profile <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Theatres</a>
+        <a class="nav-link" ui-sref="guest-abstract.cinemas">Cinemas</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" ui-sref="guest-abstract.theatres">Theatres</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" ng-show="globals.currentUser.userType == '1'" ui-sref="guest-abstract.registerObject">Add object</a>
       </li>
     </ul>
     
@@ -102,3 +108,4 @@
    <div ui-view='theatres'></div>
    <div ui-view='profilePage'></div>
    <div ui-view='settingsPage'></div>
+   <div ui-view='registerObject'></div>

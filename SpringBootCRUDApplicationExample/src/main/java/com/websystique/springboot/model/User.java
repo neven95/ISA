@@ -64,6 +64,14 @@ public class User implements Serializable{
 		this.confirmationToken = confirmationToken;
 	}
 
+	/*public CulturalObject getObject() {
+		return object;
+	}
+
+	public void setObject(CulturalObject object) {
+		this.object = object;
+	}*/
+
 	@Column(name="tel")
 	private String phoneNumber;
 	
@@ -150,7 +158,7 @@ public Long getId() {
 		
 	}
 	
-	public User(String ime, String prezime, String email, String password, String phoneNumber, String username, String city, String type) {
+	public User(String ime, String prezime, String email, String password, String phoneNumber, String username, String city, String type, CulturalObject object) {
 	super();
 	this.firstName = ime;
 	this.lastName = prezime;

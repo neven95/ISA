@@ -26,6 +26,7 @@ app.constant('urls', {
     CINEMAS_SERVICE_API : 'http://localhost:8080/SpringBootCRUDApp/cinemasApi/cinemas',
     AUTHENTICATION_SERVICE_API : 'http://localhost:8080/SpringBootCRUDApp/api/authenticate/',
     THEATRES_SERVICE_API : 'http://localhost:8080/SpringBootCRUDApp/theatresApi/theatres',
+    OBJECT_SERVICE_API : 'http://localhost:8080/SpringBootCRUDApp/theatresApi/registerObject'
 });
 /*app.config(['$stateProvider', '$urlRouterProvider',
     function($stateProvider, $urlRouterProvider) {
@@ -151,8 +152,7 @@ app.constant('urls', {
             views: {
                 'profilePage': {
                   templateUrl: 'partials/profilePage'
-                 // controller: 'ProfileController',
-                 // controllerAs: 'profCtrl'
+                 
               }
             }   
         })
@@ -180,7 +180,7 @@ app.constant('urls', {
             },
             views: {
                 'friends': {
-                  template: '<strong>Ej drugovii</strong>',
+                  template: '<strong>Ej drugovii</strong>'
                 //  controller: 'ProfileController',
                 //  controllerAs: 'profCtrl'
               }
@@ -192,8 +192,7 @@ app.constant('urls', {
             views: {
                 'settingsPage': {
                   templateUrl: 'partials/settingsPage'
-                 // controller: 'ProfileController',
-                 // controllerAs: 'profCtrl'
+                 
               }
             }   
         })
@@ -212,7 +211,7 @@ app.constant('urls', {
               }
             },
             params: {
-                username: null
+                username:null
             }  
         })
         .state('guest-abstract.settings-abstract.security', {
@@ -237,7 +236,7 @@ app.constant('urls', {
             url: '/usersList',
             resolve: {
                 initialData: ['UserService', function(UserService){
-                      return UserService.loadAllUsers();   
+                      return UserService.loadAllUsers();
                   }]
             },
             views:{
@@ -248,6 +247,21 @@ app.constant('urls', {
                 }
             }
         })
+        .state('guest-abstract.registerObject', {
+            url: '/registerObject',
+            resolve: {
+                initialData: ['UserService', function(UserService){
+                      return UserService.loadAllUsers();
+                  }]
+            },
+            views: {
+                'registerObject': {
+                    templateUrl: "partials/registerCinema",
+                    controller: "usersListController",
+                    controllerAs: "regUsersCtrl"
+                }
+            }
+        });
         $urlRouterProvider.otherwise('/home');
     }]);
 /*app.config(['$stateProvider', '$urlRouterProvider',

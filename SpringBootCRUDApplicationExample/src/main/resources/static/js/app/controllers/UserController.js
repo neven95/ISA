@@ -1,11 +1,10 @@
 'use strict';
 
 angular.module('crudApp').controller('UserController',
-    ['UserService', '$scope','$state', 'initialData',   
-        function( UserService, $scope, $state, initialData) {
+    ['UserService', '$scope','$state',    
+        function( UserService, $scope, $state) {
         
         var self = this;
-        
         self.user = {};
         self.users=[];
         self.user.enabled = false;
@@ -30,8 +29,10 @@ angular.module('crudApp').controller('UserController',
         self.dataLoading = false;
         self.onlyIntegers = /^\d+$/;
         self.onlyNumbers = /^\d+([,.]\d+)?$/;
-        self.usersList = initialData.usersList;
-       
+        self.debag = debag;
+        function debag(){
+            console.log("Uslo je u fju debag");
+        }
         function submit() {
             console.log('Submitting');
             self.dataLoading = true;

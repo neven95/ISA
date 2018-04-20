@@ -36,4 +36,11 @@ public class CinemasController {
 		return new ResponseEntity<List<CulturalObject>>(cinemasList, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value="/cinemas/registerCinema", method=RequestMethod.POST)
+	public ResponseEntity<?> registerCinema(){
+		
+		
+		return null;
+	}
+	
 }

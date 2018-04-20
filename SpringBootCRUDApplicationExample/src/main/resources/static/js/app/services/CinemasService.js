@@ -1,8 +1,8 @@
 'use-strict';
 
 angular.module('crudApp').factory('CinemasService', 
-    ['$localStorage', '$http', '$q', 'urls', 
-        function($localStorage, $http, $q, urls) {
+    ['$localStorage', '$http', '$q', 'urls', '$state',
+        function($localStorage, $http, $q, urls, $state) {
 
             var self = this;
             

@@ -12,7 +12,6 @@
             </ul>
         </div>
         <div class="col-md-6">
-            <a ng-show="globals.currentUser.userType == '0'" href="#">Change user and password!</a>
             <strong>Information</strong><br>
             <div class="table-responsive">
             <table class="table table-condensed table-responsive table-user-information">

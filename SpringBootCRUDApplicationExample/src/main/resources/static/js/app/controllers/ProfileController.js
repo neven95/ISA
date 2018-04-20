@@ -18,8 +18,58 @@ angular.module('crudApp').controller('ProfileController',
         self.onlyNumbers = /^\d+([,.]\d+)?$/;
         self.updateUsersGeneralSettings = updateUsersGeneralSettings;
         self.submit = submit;
+        self.securitySubmit = securitySubmit;
+        self.correctPassword = true;
+        
         function submit(){
             updateUsersGeneralSettings(self.userData, self.userData.id);
+        }
+        function securitySubmit(){
+            console.log(self.userData.password);
+            console.log(self.currentPassword);
+            console.log(self.newPassword);
+            console.log(self.repeatPassword);
+            if(self.userData.password !== self.currentPassword){
+                self.correctPassword = false;
+                return;
+            }
+            self.correctPassword = true;
+            if(self.newPassword === self.repeatPassword){
+                console.log("Sifre se slazu");
+                self.passwordMatch = true;
+                self.passwordDoNotMatch = false;
+            }else{
+                console.log("Sifre se ne slazu");
+                self.passwordMatch = false;
+                self.passwordDoNotMatch = true;
+                return;
+            }
+            self.userData.password = self.newPassword;
+            updateSecuritySettings(self.userData, self.userData.id);
+        }
+        function updateSecuritySettings(user, id){
+            console.log('About to update user\'s password');
+            self.dataLoading = true;
+            UserService.updateUser(user, id)
+                .then(
+                    function (response){
+                        console.log('User\'s password updated successfully');
+                        console.log(response.username);
+                        self.successMessage='User\'s password updated successfully';
+                        self.errorMessage='';
+                        self.done = true;
+                        self.dataLoading = false;
+                        //AuthenticationService.SetCredentials(response.username, response.password, response.type);
+                        AuthenticationService.ClearCredentials();
+                        $state.go('login');
+                    },
+                    function(errResponse){
+                        console.error('Error while updating User\'s password');
+                        self.errorMessage=errResponse.data.errorMessage;
+                        self.dataLoading = false;
+                        self.successMessage='';
+                    }
+                );
         }
         function updateUsersGeneralSettings(user, id){
             console.log('About to update user');

@@ -26,8 +26,7 @@
                     console.log(response.data);
                     AuthenticationService.SetCredentials(vm.username, vm.password, response.data);
                     
-                    //e.preventDefault();
-                   $state.go('guest-abstract.profile-abstract.profile-overview', {username: vm.username});
+                   $state.go("guest-abstract.profile-abstract.profile-overview",{username: vm.username});
                 } else {
                     console.log('Ovo je poruka o gresci ' + response.data.errorMessage);
                     vm.errorMessage = response.data.errorMessage;

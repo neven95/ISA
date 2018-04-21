@@ -1,10 +1,9 @@
 'use strict';
 
 angular.module('crudApp').controller('ProfileController',
-    ['UserService','initialData', '$scope','$state', 'AuthenticationService',   function( UserService, initialData, $scope, $state, AuthenticationService) {
+    ['UserService','initialData', '$scope','$state', 'AuthenticationService',   function( UserService, initialData,$scope, $state, AuthenticationService) {
         var self = this;
         self.userData = initialData.userData;
-
         self.firstNamePattern=/^[A-Z][a-z]*\S$/;
         self.lastNamePattern=/^[A-Z][a-z]*\S$/;
         self.userNamePattern= /^\S*$/;

@@ -58,7 +58,8 @@
         <script src="js/app/controllers/CinemasController.js"></script>
         <script src="js/app/controllers/TheatresController.js"></script>
         <script src="js/app/controllers/FriendsController.js"></script>
-        
+        <script src="js/app/controllers/FriendsSearchController.js"></script>
+        <script src="js/app/controllers/ReserveController.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
          <#--  <script type='text/javascript' src='js/lib/bootstrap.js'></script>  -->
       </body>

@@ -1,5 +1,6 @@
 package com.websystique.springboot.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,11 +20,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.websystique.springboot.model.Friends;
+import com.websystique.springboot.model.FriendsDTO;
+import com.websystique.springboot.model.FriendsId;
 import com.websystique.springboot.model.LoginForm;
 //import com.nulabinc.zxcvbn.Strength;
 //import com.nulabinc.zxcvbn.Zxcvbn;
 import com.websystique.springboot.model.User;
+import com.websystique.springboot.model.UserDTO;
+import com.websystique.springboot.repositories.FriendsRepository;
 import com.websystique.springboot.service.EmailService;
+import com.websystique.springboot.service.FriendsService;
 import com.websystique.springboot.service.UserService;
 import com.websystique.springboot.util.CustomErrorType;
 
@@ -38,44 +45,39 @@ public class RestApiController {
 	
 	private UserService userService; //Service which will do all data retrieval/manipulation work
 	
-	
+	private FriendsService friendsService;
 //	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	
 	private EmailService emailService;
 	
 	@Autowired
-    public RestApiController( UserService userService, EmailService emailService) {
+    public RestApiController( UserService userService, EmailService emailService, FriendsService friendsService) {
       
      // this.bCryptPasswordEncoder = bCryptPasswordEncoder;
       this.userService = userService;
       this.emailService = emailService;
-    }
+      this.friendsService = friendsService;
+	}
 	
 	// -------------------Retrieve All Users---------------------------------------------
 
 	@RequestMapping(value = "/user/", method = RequestMethod.GET)
-	public ResponseEntity<List<User>> listAllUsers() {
+	public ResponseEntity<List<UserDTO>> listAllUsers() {
 		List<User> users = userService.findAllUsers();
+		
 		if (users.isEmpty()) {
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 			// You many decide to return HttpStatus.NOT_FOUND
 		}
-		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+		List<UserDTO> usersDTO = UserDTO.parsUserDTOList(users);
+		return new ResponseEntity<List<UserDTO>>(usersDTO, HttpStatus.OK);
 	}
 	
 	// ------- Authenticate user when loging in
 	
 	@RequestMapping(value = "/authenticate/{username}", method = RequestMethod.POST)
 	public ResponseEntity<?> getLoginUser(@PathVariable("username") String username,Writer writer,@RequestBody LoginForm loginForm) {
-		System.out.println("************* usao je i poslao username: " + username);
-		//Enumeration<String> atributi =  request.getAttributeNames();
-		System.out.println(loginForm);
-		
-		/*if (users.isEmpty()) {
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
-			// You many decide to return HttpStatus.NOT_FOUND
-		}*/
 		User user = userService.findByUsername(loginForm.getUsername());
 		if(user == null){
 			return new ResponseEntity(new CustomErrorType("User with username " +  loginForm.getUsername()
@@ -87,9 +89,28 @@ public class RestApiController {
 			return new ResponseEntity(new CustomErrorType("User with username " +  loginForm.getUsername()
 			+	"not found"	), HttpStatus.NOT_FOUND);
 		}
+		UserDTO userDTO = UserDTO.parseUsertoDTO(user);
 		return new ResponseEntity<String>(user.getType(), HttpStatus.OK);
 	}
 
+	//-------------------Retrieve user's search result----------------------------------------
+	@RequestMapping(value = "/searchFriends/{searchValue}", method = RequestMethod.GET)
+	public ResponseEntity<?> getSearchFriends(@PathVariable("searchValue") String searchValue) {
+		List<User> users = userService.findBySearchValue(searchValue);
+		if (users.isEmpty()) {
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+			// You many decide to return HttpStatus.NOT_FOUND
+		}
+		List<UserDTO> usersDTO = new ArrayList<>();
+		
+		//System.out.println(users.getUsername());
+		for(User user : users){
+			if(user.isEnabled())
+			usersDTO.add(UserDTO.parseUsertoDTO(user));
+		}
+		return new ResponseEntity<List<UserDTO>>(usersDTO, HttpStatus.OK);
+	}
+	
 	//-------------------Retrieve user's friends----------------------------------------
 	@RequestMapping(value = "/friendsList/{username}", method = RequestMethod.GET)
 	public ResponseEntity<?> getFriendsList(@PathVariable("username") String username) {
@@ -99,11 +120,21 @@ public class RestApiController {
 			return new ResponseEntity(new CustomErrorType("User with username " + username 
 					+ " not found"), HttpStatus.NOT_FOUND);
 		}
-		List<User> friendsList = user.getFriends();
-		return new ResponseEntity<List<User>>(friendsList, HttpStatus.OK);
+		List<UserDTO> usersDTO = new ArrayList<>();
+		for(Friends friends : user.getPersons()){
+			if(friends.getFriendshipDate()){
+				usersDTO.add(UserDTO.parseUsertoDTO(friends.getFriends()));
+			}
+		}
+		for(Friends friends : user.getFriends()){
+			if(friends.getFriendshipDate()){
+				usersDTO.add(UserDTO.parseUsertoDTO(friends.getPersons()));
+			}
+		}
+		
+		return new ResponseEntity<List<UserDTO>>(usersDTO, HttpStatus.OK);
 		
 	}
-	
 	// -------------------Retrieve Single User------------------------------------------
 
 	@RequestMapping(value = "/user/{username}", method = RequestMethod.GET)
@@ -115,7 +146,31 @@ public class RestApiController {
 			return new ResponseEntity(new CustomErrorType("User with username " + username 
 					+ " not found"), HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<User>(user, HttpStatus.OK);
+		List<FriendsDTO> friendsDTO = new ArrayList<>();
+		
+		for(Friends friends : user.getPersons()){
+			if(friends.getFriendshipDate()){
+				friendsDTO.add(new FriendsDTO(friends.getFriends().getId(), friends.getFriendshipDate(),
+						"accepted"));
+			}else{
+				friendsDTO.add(new FriendsDTO(friends.getFriends().getId(), friends.getFriendshipDate(),
+						"requested"));
+			}
+				
+		}
+		for(Friends friends : user.getFriends()){
+			if(friends.getFriendshipDate()){
+				friendsDTO.add(new FriendsDTO(friends.getPersons().getId(),friends.getFriendshipDate(),
+						"accepted"));
+			}else{
+				friendsDTO.add(new FriendsDTO(friends.getPersons().getId(),friends.getFriendshipDate(),
+						"received"));
+			}
+				
+		}
+		UserDTO userDTO = UserDTO.parseUsertoDTO(user);
+		userDTO.setFriends(friendsDTO);
+		return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
 	}
 
 	// -------------------Create a User-------------------------------------------
@@ -159,8 +214,7 @@ public class RestApiController {
 	@RequestMapping(value = "/confirm/{token}", method = RequestMethod.GET)
 	public RedirectView confirmUser(@PathVariable("token") String token, RedirectAttributes redirectAttributes){
 		User user = userService.findByConfirmationToken(token);
-		System.out.println("Usao u confirm************************************" + user);
-		//logger.info("Activating user profile with id {}.", user.getId());
+		
 		if(user == null){
 			HttpHeaders responseHeaders = new HttpHeaders();
 			responseHeaders.set("MyResponseHeader", "MyValue");
@@ -180,6 +234,83 @@ public class RestApiController {
 	    redirectView.setUrl("http://localhost:8080/SpringBootCRUDApp/#!/success");
 	    System.out.println("Usao u metodu i saljem ga na uri:http://localhost:8080/SpringBootCRUDApp/success"  );
 	    return redirectView;
+	}
+	// ------------------- Add friend ------------------------------------------------
+	@RequestMapping(value="/addFriend/{usersId}/{friendsId}", method=RequestMethod.POST)
+	public ResponseEntity<?> addFriend(@PathVariable("friendsId") long friendsId, @PathVariable("usersId") String usersId){
+		
+		User friend = userService.findById(friendsId);
+		if(friend == null){
+			return new ResponseEntity(new CustomErrorType("Unable to upate. User with id " + friendsId + " not found."),
+					HttpStatus.NOT_FOUND);
+		}
+		User user = userService.findByUsername(usersId);
+		if(user == null){
+			return new ResponseEntity(new CustomErrorType("Unable to upate. User with id " + usersId + " not found."),
+					HttpStatus.NOT_FOUND);
+		}
+		if(user.getId() == friend.getId()){
+			return new ResponseEntity(new CustomErrorType("Unable to upate. User with id " + usersId + ", same username."),
+					HttpStatus.CONFLICT);
+		}
+		for(Friends friends : user.getPersons()){
+			//System.out.println("Friends:"+friends.getFriends());
+			//System.out.println("Persons:"+friends.getPersons());
+			if(friends.getFriends().getId() == friend.getId()){
+				return new ResponseEntity(new CustomErrorType("Unable to upate. User with id " + usersId + ", already have friends with username"
+						+ friend.getUsername()+ "."),
+						HttpStatus.CONFLICT);
+			}
+			
+		}
+		for(Friends friends : user.getFriends()){
+			System.out.println("Friends:"+friends.getFriends());
+			System.out.println("Persons:"+friends.getPersons());
+			if(friends.getPersons().getId() == friend.getId()){
+				return new ResponseEntity(new CustomErrorType("Unable to upate. User with id " + usersId + ", already have friends with username"
+						+ friend.getUsername()+ "."),
+						HttpStatus.CONFLICT);
+			}
+		}
+		System.out.println("Ime prijatelja" + friend.getLastName());
+		FriendsId key = new FriendsId(user.getId(), friend.getId());
+		Friends friends = new Friends(key, friend,user, false);
+		friendsService.updateFriends(friends);
+		//user.getFriends().add(new Friends());
+		return new ResponseEntity<UserDTO>(UserDTO.parseUsertoDTO(friend), HttpStatus.OK);
+	}
+	
+	//--------------------Refuse frend's request----------------------------------------
+	@RequestMapping(value="/refuse/{username}/{friendsId}", method=RequestMethod.DELETE)
+	public ResponseEntity<?> refuseFriend(@PathVariable("friendsId") long friendsId, @PathVariable("username") String username){
+		User user = userService.findByUsername(username);
+		User friend = userService.findById(friendsId);
+		Friends friends = new Friends(new FriendsId(friend.getId(),user.getId()),user, friend);
+		
+		System.out.println(friends + "  *********************************************");
+		if (user == null || friends == null) {
+			logger.error("Unable to delete. Friends with id {} not found.", friends.getId());
+			return new ResponseEntity(new CustomErrorType("Unable to delete. User with id " + friends.getId() + " not found."),
+					HttpStatus.NOT_FOUND);
+		}
+		friendsService.deleteFriendsById(friends.getId());
+		return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
+	}
+	//--------------------Accept request-------------------------------------------------
+	@RequestMapping(value="/accept/{username}/{friendsId}", method=RequestMethod.PUT)
+	public ResponseEntity<?> acceptFriend(@PathVariable("username") String username, @PathVariable("friendsId") long friendsId){
+		User user = userService.findByUsername(username);
+		User friend = userService.findById(friendsId);
+		Friends friends = new Friends(new FriendsId(friend.getId(),user.getId()),user, friend);
+		friends.setFriendshipDate(true);
+		System.out.println(friends + "  *********************************************");
+		if (user == null || friends == null) {
+			logger.error("Unable to accept. Friends with id {} not found.", friends.getId());
+			return new ResponseEntity(new CustomErrorType("Unable to delete. User with id " + friends.getId() + " not found."),
+					HttpStatus.NOT_FOUND);
+		}
+		friendsService.updateFriends(friends);
+		return new ResponseEntity<UserDTO>( HttpStatus.OK);
 	}
 	// ------------------- Update a User ------------------------------------------------
 
@@ -224,7 +355,7 @@ public class RestApiController {
 		currentUser.setUsername(user.getUsername());
 		currentUser.setPassword(user.getPassword());
 		userService.updateUser(currentUser);
-		return new ResponseEntity<User>(currentUser, HttpStatus.OK);
+		return new ResponseEntity<UserDTO>(UserDTO.parseUsertoDTO(currentUser), HttpStatus.OK);
 	}
 
 	// ------------------- Delete a User-----------------------------------------

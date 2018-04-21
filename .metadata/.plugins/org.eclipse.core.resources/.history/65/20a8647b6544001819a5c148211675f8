@@ -1,0 +1,7 @@
+package com.websystique.springboot.service;
+
+import com.websystique.springboot.model.Friends;
+
+public interface FriendsService {
+	public Friends findByFriends1(long id);
+}

@@ -1,5 +1,7 @@
 package com.websystique.springboot.repositories;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,6 +19,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     
     @Query("SELECT u FROM User u where LOWER(u.email) = LOWER(:email)")
     public User queryEmail(@Param("email") String email);
+    
+    @Query("SELECT u FROM User u where u.username like %:searchValue%")
+    public List<User> querySearch(@Param("searchValue") String searchValue);
     
     public User findByConfirmationToken(String confirmationToken);
 }

@@ -1,0 +1,56 @@
+package com.websystique.springboot.model;
+
+import javax.persistence.Embeddable;
+
+@Embeddable
+public class FriendsId implements java.io.Serializable {
+	private int personId;
+    private int friendId;
+    
+    public FriendsId() {
+    }
+ 
+    public FriendsId(int personId, int friendId) {
+        this.personId = personId;
+        this.friendId = friendId;
+    }
+    
+    @Column(name = "person_id", nullable = false)
+    public int getPersonId() {
+        return this.personId;
+    }
+ 
+    public void setPersonId(int personId) {
+        this.personId = personId;
+    }
+ 
+    @Column(name = "friend_id", nullable = false)
+    public int getFriendId() {
+        return this.friendId;
+    }
+ 
+    public void setFriendId(int friendId) {
+        this.friendId = friendId;
+    }
+ 
+    public boolean equals(Object other) {
+        if ((this == other))
+            return true;
+        if ((other == null))
+            return false;
+        if (!(other instanceof FriendsId))
+            return false;
+        FriendsId castOther = (FriendsId) other;
+ 
+        return (this.getPersonId() == castOther.getPersonId())
+                && (this.getFriendId() == castOther.getFriendId());
+    }
+ 
+    public int hashCode() {
+        int result = 17;
+ 
+        result = 37 * result + this.getPersonId();
+        result = 37 * result + this.getFriendId();
+        return result;
+    }
+}

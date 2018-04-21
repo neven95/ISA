@@ -1,0 +1,17 @@
+package com.websystique.springboot.model;
+
+import javax.persistence.Embeddable;
+
+@Embeddable
+public class FriendsId implements java.io.Serializable {
+	private int personId;
+    private int friendId;
+    
+    public FriendsId() {
+    }
+ 
+    public FriendsId(int personId, int friendId) {
+        this.personId = personId;
+        this.friendId = friendId;
+    }
+}

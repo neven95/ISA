@@ -27,6 +27,10 @@ app.constant('urls', {
     CINEMAS_SERVICE_API : 'http://localhost:8080/SpringBootCRUDApp/cinemasApi/cinemas',
     AUTHENTICATION_SERVICE_API : 'http://localhost:8080/SpringBootCRUDApp/api/authenticate/',
     THEATRES_SERVICE_API : 'http://localhost:8080/SpringBootCRUDApp/theatresApi/theatres',
+    SEARCH_FRIENDS_SERVICE_API : 'http://localhost:8080/SpringBootCRUDApp/api/searchFriends/',
+    ADDING_FRIEND_API: 'http://localhost:8080/SpringBootCRUDApp/api/addFriend/',
+    REFUSING_FRIEND_API: 'http://localhost:8080/SpringBootCRUDApp/api/refuse/',
+    ACCEPTING_FRIEND_API: 'http://localhost:8080/SpringBootCRUDApp/api/accept/',
 });
 
     app.config(['$stateProvider', '$urlRouterProvider',
@@ -139,6 +143,8 @@ app.constant('urls', {
             views: {
                 'friends': {
                   templateUrl: 'partials/friends',
+                  controller: 'BaseController',
+                  controllerAs: 'faCtrl'
               }
             }  
         })
@@ -147,8 +153,6 @@ app.constant('urls', {
             resolve: {
                 initialData: ['$stateParams', 'FriendsService',function($stateParams, FriendsService){
                     console.log("Usao je u resolve");
-                    console.log($stateParams.username);
-                    console.log(FriendsService.initialFriendsCtrlData($stateParams.username));
                     return FriendsService.initialFriendsCtrlData($stateParams.username);   
                   }]
             },
@@ -165,18 +169,28 @@ app.constant('urls', {
             resolve: {
                 initialData: ['$stateParams', 'FriendsService',function($stateParams, FriendsService){
                     console.log("Usao je u resolve");
-                    console.log($stateParams.username);
-                    console.log(FriendsService.initialFriendsCtrlData($stateParams.username));
-                    return FriendsService.initialFriendsCtrlData($stateParams.username);   
+                    console.log($stateParams.username+" " +$stateParams.searchValue);
+                   // console.log(FriendsService.initialFriendsCtrlData($stateParams.username));
+                    return FriendsService.initialFriendsSearchCtrlData($stateParams.username, $stateParams.searchValue);   
+                  }],
+                  usersInitialData:  ['$stateParams', 'UserService',function($stateParams, UserService){
+                    console.log("Usao je u usersInitialData resolve");
+                    console.log($stateParams.username+" " +$stateParams.searchValue);
+                   // console.log(FriendsService.initialFriendsCtrlData($stateParams.username));
+                    return UserService.getUser($stateParams.username);   
                   }]
             },
             views: {
                 'friendsSearch': {
                   templateUrl: 'partials/friendsSearch',
-                  controller: 'FriendsController',
-                  controllerAs: 'friendsCtrl'
+                  controller: 'FriendsSearchController',
+                  controllerAs: 'searchCtrl'
               }
-            }  
+
+            },
+            params: {
+                searchValue:null
+            }    
         })
         .state('guest-abstract.settings-abstract', {
             url: '/settings',
@@ -224,22 +238,26 @@ app.constant('urls', {
                 username: null
             }  
         })
-        .state('listaPrijatelja',{
-            url: '/listaPrijatelja',
-            templateUrl: 'partials/friendsList',
-            controller: 'FriendsController',
-            controllerAs: 'friendsCtrl',
-            resolve: {
+        .state('guest-abstract.reserve',{
+            url: '/reserve',
+            views: {
+                
+              'reserve': { templateUrl: 'partials/reserve',
+                controller: 'ReserveController',
+                controllerAs: 'friendsCtrl'
+            }
+            }
+           /* resolve: {
                 initialData: ['$stateParams', 'FriendsService',function($stateParams, FriendsService){
                     console.log("Usao je u resolve");
                     console.log($stateParams.username);
                     console.log(FriendsService.initialFriendsCtrlData($stateParams.username));
                     return FriendsService.initialFriendsCtrlData($stateParams.username);   
                   }]
-            },
-            params: {
+            },*/
+           /* params: {
                 username: null
-            } 
+            } */
         })
         $urlRouterProvider.otherwise('/home');
     }]);

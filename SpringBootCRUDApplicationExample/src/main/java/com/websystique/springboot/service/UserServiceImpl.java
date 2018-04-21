@@ -61,5 +61,8 @@ public class UserServiceImpl implements UserService{
 	public User findByConfirmationToken(String confirmationToken) {
 		return userRepository.findByConfirmationToken(confirmationToken);
 	}
+	public List<User> findBySearchValue(String searchValue){
+		return userRepository.querySearch(searchValue);
+	}
 
 }

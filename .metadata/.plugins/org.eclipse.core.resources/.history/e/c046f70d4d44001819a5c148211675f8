@@ -1,0 +1,5 @@
+package com.websystique.springboot.model;
+
+public class FriendsId {
+
+}

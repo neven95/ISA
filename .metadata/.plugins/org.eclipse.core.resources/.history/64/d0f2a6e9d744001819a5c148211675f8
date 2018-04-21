@@ -1,0 +1,13 @@
+package com.websystique.springboot.service;
+
+import com.websystique.springboot.model.Friends;
+import com.websystique.springboot.model.User;
+
+public interface FriendsService {
+	public Friends findByFriends1(long id);
+	public void updateFriends(Friends friend);
+	
+	void updateFriends(User user);
+
+	void deleteFriendsById(Long id);
+}

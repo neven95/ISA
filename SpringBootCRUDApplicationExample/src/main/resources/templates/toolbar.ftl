@@ -59,7 +59,7 @@
         <a class="nav-link" ng-if="globals.currentUser.username!=null" ui-sref="guest-abstract.profile-abstract.profile-overview({username:globals.currentUser.username})">Profile <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" ng-if="globals.currentUser.username!=null" ui-sref="listaPrijatelja({username:globals.currentUser.username})">Lista prijatelja <span class="sr-only">(current)</span></a>
+        <a class="nav-link" ng-if="globals.currentUser.username!=null && globals.currentUser.userType==0" ui-sref="guest-abstract.reserve">Reserve <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" ui-sref="guest-abstract.cinemas">Cinemas</a>
@@ -108,3 +108,4 @@
    <div ui-view='theatres'></div>
    <div ui-view='profilePage'></div>
    <div ui-view='settingsPage'></div>
+   <div ui-view='reserve'></div>

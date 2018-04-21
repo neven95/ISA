@@ -1,0 +1,14 @@
+package com.websystique.springboot.model;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "prijatelji1")
+public class Friends implements java.io.Serializable{
+	 private FriendsId id;
+	 private User friends;
+	 private User persons;
+	 private boolean accepted;
+	
+}

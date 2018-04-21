@@ -1,0 +1,16 @@
+package com.websystique.springboot.service;
+
+import org.springframework.stereotype.Service;
+
+import com.websystique.springboot.model.Friends;
+
+@Service("UserService")
+public class FriendsServiceImpl implements FriendsService{
+
+	@Override
+	public Friends findByFriends1(long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

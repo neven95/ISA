@@ -1,0 +1,19 @@
+package com.websystique.springboot.model;
+
+import java.util.List;
+
+public class UserDTO {
+	private Long id;
+	private List<UserDTO> friends;
+	private List<UserDTO> friendsOf;
+	private String firstName;
+	private String lastName;
+	private String email;
+	private String password;
+	private String city;
+	private String type;
+	private String username;
+	private String phoneNumber;
+	
+	
+}

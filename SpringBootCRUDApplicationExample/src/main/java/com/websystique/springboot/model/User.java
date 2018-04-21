@@ -1,23 +1,19 @@
 package com.websystique.springboot.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
@@ -30,7 +26,7 @@ public class User implements Serializable{
 	@Column(name="id")
 	private Long id;
 	
-	@JsonIgnoreProperties("friendsOf")
+	/*@JsonIgnoreProperties("friendsOf")
 	@ManyToMany(fetch = FetchType.LAZY,cascade={CascadeType.PERSIST, CascadeType.MERGE,
 			CascadeType.DETACH,CascadeType.REFRESH})
 	@JoinTable(
@@ -65,7 +61,14 @@ public class User implements Serializable{
 	public void setFriends(List<User> friends) {
 		this.friends = friends;
 	}
-
+*/
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "friends")
+	private Set<Friends> friends = new HashSet<Friends>();
+	
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "persons")
+    private Set<Friends> persons = new HashSet<Friends>();
+    
 	@Column(name="ime")
 	private String firstName;
 
@@ -198,17 +201,19 @@ public Long getId() {
 	
 
 */
-	public void addStudent(User theUser){
+	/*public void addStudent(User theUser){
 		if(friends == null){
 			friends = new ArrayList<>();
 		}
 		friends.add(theUser);
-	}
+	}*/
 	public User(){
 		
 	}
 	
-	public User(String ime, String prezime, String email, String password, String phoneNumber, String username, String city, String type) {
+	public User(String ime, String prezime, String email, String password, String phoneNumber,
+				String username, String city, String type, Set<Friends> friends,
+	            Set<Friends> persons) {
 	super();
 	this.firstName = ime;
 	this.lastName = prezime;
@@ -218,9 +223,27 @@ public Long getId() {
 	this.username = username;
 	this.city = city;
 	this.type = type;
+	this.friends=friends;
+	this.persons=persons;
 }
 
 	
+	
+	public Set<Friends> getFriends() {
+		return friends;
+	}
+
+	public void setFriends(Set<Friends> friends) {
+		this.friends = friends;
+	}
+
+	public Set<Friends> getPersons() {
+		return persons;
+	}
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "persons")
+	public void setPersons(Set<Friends> persons) {
+		this.persons = persons;
+	}
 
 	@Override
 	public String toString() {

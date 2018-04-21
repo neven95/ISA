@@ -1,0 +1,5 @@
+package com.websystique.springboot.repositories;
+
+public class FriendsRepository {
+
+}

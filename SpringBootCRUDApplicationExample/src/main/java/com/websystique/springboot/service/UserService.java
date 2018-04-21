@@ -28,4 +28,6 @@ public interface UserService {
 	public User findByConfirmationToken(String confirmationToken);
 	
 	public User findByUsername(String username);
+	
+	public List<User> findBySearchValue(String searchValue);
 }

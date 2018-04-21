@@ -1,0 +1,7 @@
+package com.websystique.springboot.model;
+
+@Entity
+@Table(name = "prijatelji1")
+public class Friends {
+	
+}

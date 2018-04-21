@@ -112,7 +112,7 @@ public class RestApiController {
 	}
 	
 	//-------------------Retrieve user's friends----------------------------------------
-	@RequestMapping(value = "/friendsList/{username}", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/friendsList/{username}", method = RequestMethod.GET)
 	public ResponseEntity<?> getFriendsList(@PathVariable("username") String username) {
 		User user = userService.findByUsername(username);
 		if (user == null) {
@@ -133,12 +133,13 @@ public class RestApiController {
 		}
 		
 		return new ResponseEntity<List<UserDTO>>(usersDTO, HttpStatus.OK);
-
+		
+<<<<<<< HEAD
 	}
-
+=======
+	}*/
 	
-	
-
+>>>>>>> 55c771b0c57adb7f55ce4f90f376a25fc83e89d0
 	// -------------------Retrieve Single User------------------------------------------
 
 	@RequestMapping(value = "/user/{username}", method = RequestMethod.GET)

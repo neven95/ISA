@@ -67,6 +67,9 @@
       <li class="nav-item">
         <a class="nav-link" ui-sref="guest-abstract.theatres">Theatres</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" ng-show="globals.currentUser.userType == '1'" ui-sref="guest-abstract.registerObject">Add object</a>
+      </li>
     </ul>
     
     <ul class="navbar-nav ml-auto" ng-if="globals.currentUser.username==null">
@@ -109,3 +112,4 @@
    <div ui-view='profilePage'></div>
    <div ui-view='settingsPage'></div>
    <div ui-view='reserve'></div>
+   <div ui-view='registerObject'></div>

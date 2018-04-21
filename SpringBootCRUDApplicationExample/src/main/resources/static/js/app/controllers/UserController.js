@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('crudApp').controller('UserController',
-    ['UserService', '$scope','$state',   function( UserService, $scope, $state) {
+    ['UserService', '$scope','$state',    
+        function( UserService, $scope, $state) {
         
         var self = this;
         self.user = {};

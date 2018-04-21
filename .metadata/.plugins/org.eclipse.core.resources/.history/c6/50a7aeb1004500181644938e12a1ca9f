@@ -24,6 +24,7 @@ public class User implements Serializable{
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	@Column(name="id")
 	private Long id;
+<<<<<<< HEAD
 	
 	/*@JsonIgnoreProperties("friendsOf")
 	@ManyToMany(fetch = FetchType.LAZY,cascade={CascadeType.PERSIST, CascadeType.MERGE,
@@ -69,6 +70,10 @@ public class User implements Serializable{
     private Set<Friends> persons = new HashSet<Friends>();
     
 	@Column(name="ime")
+=======
+		
+		@Column(name="ime")
+>>>>>>> 55c771b0c57adb7f55ce4f90f376a25fc83e89d0
 	private String firstName;
 
 	@Column(name="prezime")
@@ -208,25 +213,27 @@ public Long getId() {
 	
 
 */
-
+<<<<<<< HEAD
 	/*public void addStudent(User theUser){
 		if(friends == null){
 			friends = new ArrayList<>();
 		}
 		friends.add(theUser);
 	}*/
+=======
 
-
-
+>>>>>>> 55c771b0c57adb7f55ce4f90f376a25fc83e89d0
 	public User(){
 		
 	}
 	
-
+<<<<<<< HEAD
 	public User(String ime, String prezime, String email, String password, String phoneNumber,
 				String username, String city, String type, Set<Friends> friends,
 	            Set<Friends> persons) {
-
+=======
+	public User(String ime, String prezime, String email, String password, String phoneNumber, String username, String city, String type, CulturalObject object) {
+>>>>>>> 55c771b0c57adb7f55ce4f90f376a25fc83e89d0
 	super();
 	this.firstName = ime;
 	this.lastName = prezime;

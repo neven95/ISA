@@ -9,7 +9,7 @@ app.run(function($rootScope, $location, $http, $cookies, CinemasService, Theatre
     if ($rootScope.globals.currentUser) {
         $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.authdata;
     }
- 
+
     $rootScope.$on('$stateChangeStart', function(evt, toState, toParams, fromState, fromParams) {
         console.log("$stateChangeStart " + fromState.name + JSON.stringify(fromParams) + " -> " + toState.name + JSON.stringify(toParams));
     });
@@ -31,6 +31,7 @@ app.constant('urls', {
     ADDING_FRIEND_API: 'http://localhost:8080/SpringBootCRUDApp/api/addFriend/',
     REFUSING_FRIEND_API: 'http://localhost:8080/SpringBootCRUDApp/api/refuse/',
     ACCEPTING_FRIEND_API: 'http://localhost:8080/SpringBootCRUDApp/api/accept/',
+    OBJECT_SERVICE_API : 'http://localhost:8080/SpringBootCRUDApp/theatresApi/registerObject'
 });
 
     app.config(['$stateProvider', '$urlRouterProvider',
@@ -238,6 +239,7 @@ app.constant('urls', {
                 username: null
             }  
         })
+
         .state('guest-abstract.reserve',{
             url: '/reserve',
             views: {
@@ -247,18 +249,38 @@ app.constant('urls', {
                 controllerAs: 'friendsCtrl'
             }
             }
-           /* resolve: {
-                initialData: ['$stateParams', 'FriendsService',function($stateParams, FriendsService){
-                    console.log("Usao je u resolve");
-                    console.log($stateParams.username);
-                    console.log(FriendsService.initialFriendsCtrlData($stateParams.username));
-                    return FriendsService.initialFriendsCtrlData($stateParams.username);   
-                  }]
-            },*/
-           /* params: {
-                username: null
-            } */
         })
+
+        .state('guest-abstract.profile-abstract.profile-usersList', {
+            url: '/usersList',
+            resolve: {
+                initialData: ['UserService', function(UserService){
+                      return UserService.loadAllUsers();
+                  }]
+            },
+            views:{
+                'usersList': {
+                    templateUrl: "partials/usersList",
+                    controller: "usersListController",
+                    controllerAs: "usersCtrl"
+                }
+            }
+        })
+        .state('guest-abstract.registerObject', {
+            url: '/registerObject',
+            resolve: {
+                initialData: ['UserService', function(UserService){
+                      return UserService.loadAllUsers();
+                  }]
+            },
+            views: {
+                'registerObject': {
+                    templateUrl: "partials/registerCinema",
+                    controller: "usersListController",
+                    controllerAs: "regUsersCtrl"
+                }
+            }
+        });
         $urlRouterProvider.otherwise('/home');
     }]);
 /*app.config(['$stateProvider', '$urlRouterProvider',

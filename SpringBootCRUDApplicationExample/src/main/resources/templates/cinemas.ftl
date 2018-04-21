@@ -8,7 +8,7 @@ Cinemas:
                     <img class="card-img-top" src="images/cinemas" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title" >{{cinema.name}}
-                            <button ng-click="cinemasCtrl.enableMarker(cinema)">
+                            <button ng-click="cinemasCtrl.enableMarker(cinema)" ng-show="globals.currentUser.userType == '0'">
                                 Show on map
                             </button>
                         </h5>
@@ -18,10 +18,10 @@ Cinemas:
                 </div>
             </div>
         </div>
-        {{cinemasCtrl.clickedCinema.width}}
+        <!--{{cinemasCtrl.clickedCinema.width}}
         {{cinemasCtrl.clickedCinema.length}}
-        {{cinemasCtrl.showMarker}}
-        <my-map clickedCinema="clickedCinema"> </my-map>
+        {{cinemasCtrl.showMarker}}-->
+        <my-map clickedCinema="clickedCinema" ng-show="globals.currentUser.userType == '0'"> </my-map>
         </div>
     </div>
 </div>

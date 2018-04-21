@@ -10,7 +10,8 @@ angular.module('crudApp').factory('UserService',
                 getUser: getUser,
                 createUser: createUser,
                 updateUser: updateUser,
-                removeUser: removeUser
+                removeUser: removeUser,
+                getUserByUsername: getUserByUsername
             };
 
             return factory;
@@ -18,12 +19,13 @@ angular.module('crudApp').factory('UserService',
             function loadAllUsers() {
                 console.log('Fetching all users');
                 var deferred = $q.defer();
-                $http.get(urls.USER_SERVICE_API)
+                var usersList = $http.get(urls.USER_SERVICE_API)
                     .then(
                         function (response) {
                             console.log('Fetched successfully all users');
                             $localStorage.users = response.data;
                             deferred.resolve(response);
+                          // return response.data;
                         },
                         function (errResponse) {
                             console.error('Error while loading users');
@@ -31,6 +33,10 @@ angular.module('crudApp').factory('UserService',
                         }
                     );
                 return deferred.promise;
+                /*return $q.all([usersList])
+                    .then(function(results) {
+                        return { usersList: results[0] };
+                    });*/
             }
 
             function getAllUsers(){
@@ -64,8 +70,22 @@ angular.module('crudApp').factory('UserService',
                 return $q.all([userData])
                     .then(function(results) {
                         return {   userData: results[0] };        
-            });
-        }
+                });
+            }
+
+            function getUserByUsername (username) {
+                var userData = $http.get(urls.USER_SERVICE_API + username)
+                    .then(function(response) {
+                        return response.data;
+                    }, function(error) {
+                        console.log("Error occured while initializing user data!");
+                    });
+
+                return $q.all([userData])
+                    .then(function(results) {
+                        return {   userData: results[0] };        
+                });
+            }
             function createUser(user) {
                 console.log('Creating User');
                 console.log(user);

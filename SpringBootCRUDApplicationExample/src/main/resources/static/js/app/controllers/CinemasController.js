@@ -27,6 +27,11 @@ angular.module('crudApp').controller('CinemasController',
 
             self.loc = { lat: 23, lon: 79 };
 
+            self.openForm = function() {
+                console.log("Open form...");
+                $state.go("guest-abstract.cinemas.registerCinema");
+            }
+
             self.gotoLocation = function (lat, lon) {
                 if ($self.lat != lat || self.lon != lon) {
                     $self.loc = { lat: lat, lon: lon };

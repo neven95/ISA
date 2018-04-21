@@ -57,6 +57,7 @@
         <script src="js/app/controllers/BaseController.js"></script>
         <script src="js/app/controllers/CinemasController.js"></script>
         <script src="js/app/controllers/TheatresController.js"></script>
+        <script src="js/app/controllers/usersListController.js"></script>
         <script src="js/app/controllers/FriendsController.js"></script>
         <script src="js/app/controllers/FriendsSearchController.js"></script>
         <script src="js/app/controllers/ReserveController.js"></script>

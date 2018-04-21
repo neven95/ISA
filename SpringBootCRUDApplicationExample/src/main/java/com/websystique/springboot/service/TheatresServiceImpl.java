@@ -27,7 +27,7 @@ public class TheatresServiceImpl implements TheatresService {
 	@Override
 	public void saveObject(CulturalObject culturalObject) {
 		// TODO Auto-generated method stub
-		
+		objectRepository.save(culturalObject);
 	}
 
 	@Override

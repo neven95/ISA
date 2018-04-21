@@ -90,6 +90,20 @@ public class RestApiController {
 		return new ResponseEntity<String>(user.getType(), HttpStatus.OK);
 	}
 
+	//-------------------Retrieve user's friends----------------------------------------
+	/*@RequestMapping(value = "/friendsList/{username}", method = RequestMethod.GET)
+	public ResponseEntity<?> getFriendsList(@PathVariable("username") String username) {
+		User user = userService.findByUsername(username);
+		if (user == null) {
+			logger.error("User with username {} not found.", username);
+			return new ResponseEntity(new CustomErrorType("User with username " + username 
+					+ " not found"), HttpStatus.NOT_FOUND);
+		}
+		List<User> friendsList = user.getFriends();
+		return new ResponseEntity<List<User>>(friendsList, HttpStatus.OK);
+		
+	}*/
+	
 	// -------------------Retrieve Single User------------------------------------------
 
 	@RequestMapping(value = "/user/{username}", method = RequestMethod.GET)

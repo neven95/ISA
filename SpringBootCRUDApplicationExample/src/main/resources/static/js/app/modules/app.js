@@ -9,7 +9,7 @@ app.run(function($rootScope, $location, $http, $cookies, CinemasService, Theatre
     if ($rootScope.globals.currentUser) {
         $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.authdata;
     }
- 
+
     $rootScope.$on('$stateChangeStart', function(evt, toState, toParams, fromState, fromParams) {
         console.log("$stateChangeStart " + fromState.name + JSON.stringify(fromParams) + " -> " + toState.name + JSON.stringify(toParams));
     });
@@ -23,49 +23,12 @@ app.run(function($rootScope, $location, $http, $cookies, CinemasService, Theatre
 app.constant('urls', {
     BASE: 'http://localhost:8080/SpringBootCRUDApp',
     USER_SERVICE_API : 'http://localhost:8080/SpringBootCRUDApp/api/user/',
+    FRIENDS_SERVICE_API: 'http://localhost:8080/SpringBootCRUDApp/api/friendsList/',
     CINEMAS_SERVICE_API : 'http://localhost:8080/SpringBootCRUDApp/cinemasApi/cinemas',
     AUTHENTICATION_SERVICE_API : 'http://localhost:8080/SpringBootCRUDApp/api/authenticate/',
     THEATRES_SERVICE_API : 'http://localhost:8080/SpringBootCRUDApp/theatresApi/theatres',
     OBJECT_SERVICE_API : 'http://localhost:8080/SpringBootCRUDApp/theatresApi/registerObject'
 });
-/*app.config(['$stateProvider', '$urlRouterProvider',
-    function($stateProvider, $urlRouterProvider) {
-        $stateProvider
-            .state('home', {
-                url: '/',
-                templateUrl: 'partials/toolbar',
-                controller:'baseController',
-                controllerAs:'ctrl',
-                resolve: {
-                    users: function ($q, UserService) {
-                        console.log('Load all users');
-                        var deferred = $q.defer();
-                        UserService.loadAllUsers().then(deferred.resolve, deferred.resolve);
-                        return deferred.promise;
-                    }
-            }
-            }).state('registration',{
-            	url: '/registration',
-            	templateUrl: 'partials/register',
-            	controller: 'UserController',
-            	controllerAs: 'regCtrl'
-            }).state('login',{
-            	url: '/login',
-            	templateUrl: 'partials/login',
-            	controller: 'loginController'
-            }).state('success',{
-                url: '/success',
-                templateUrl: 'partials/successMessage',
-                controller: 'UserController',
-                controllerAs: 'sCtrl'
-            }).state('choice',{
-                url: '/choice',
-                templateUrl: 'partials/choice',
-                controller: 'UserController',
-                controllerAs: 'sCtrl'
-            });
-        $urlRouterProvider.otherwise('/');
-    }]);*/
 
     app.config(['$stateProvider', '$urlRouterProvider',
     function($stateProvider, $urlRouterProvider) {
@@ -171,18 +134,48 @@ app.constant('urls', {
               }
             }  
         })
-        .state('guest-abstract.profile-abstract.profile-friends', {
+        .state('guest-abstract.profile-abstract.profile-abstract-friends', {
             url: '/friends',
+            abstract: true,
+            views: {
+                'friends': {
+                  templateUrl: 'partials/friends',
+              }
+            }  
+        })
+        .state('guest-abstract.profile-abstract.profile-abstract-friends.friends-list', {
+            url: '/friendsList',
             resolve: {
-                initialData: ['$stateParams', 'UserService',function($stateParams, UserService){
-                      return UserService.getUser($stateParams.username);   
+                initialData: ['$stateParams', 'FriendsService',function($stateParams, FriendsService){
+                    console.log("Usao je u resolve");
+                    console.log($stateParams.username);
+                    console.log(FriendsService.initialFriendsCtrlData($stateParams.username));
+                    return FriendsService.initialFriendsCtrlData($stateParams.username);   
                   }]
             },
             views: {
-                'friends': {
-                  template: '<strong>Ej drugovii</strong>'
-                //  controller: 'ProfileController',
-                //  controllerAs: 'profCtrl'
+                'friendsList@guest-abstract.profile-abstract.profile-abstract-friends': {
+                  templateUrl: 'partials/friendsList',
+                  controller: 'FriendsController',
+                  controllerAs: 'friendsCtrl'
+              }
+            }  
+        })
+        .state('guest-abstract.profile-abstract.profile-abstract-friends.friends-search', {
+            url: '/friendsSearch',
+            resolve: {
+                initialData: ['$stateParams', 'FriendsService',function($stateParams, FriendsService){
+                    console.log("Usao je u resolve");
+                    console.log($stateParams.username);
+                    console.log(FriendsService.initialFriendsCtrlData($stateParams.username));
+                    return FriendsService.initialFriendsCtrlData($stateParams.username);   
+                  }]
+            },
+            views: {
+                'friendsSearch': {
+                  templateUrl: 'partials/friendsSearch',
+                  controller: 'FriendsController',
+                  controllerAs: 'friendsCtrl'
               }
             }  
         })
@@ -261,7 +254,26 @@ app.constant('urls', {
                     controllerAs: "regUsersCtrl"
                 }
             }
-        });
+        })
+        .state('listaPrijatelja',{
+            url: '/listaPrijatelja',
+            views: {
+                templateUrl: 'partials/friendsList',
+                controller: 'FriendsController',
+                controllerAs: 'friendsCtrl'
+            },
+            resolve: {
+                initialData: ['$stateParams', 'FriendsService',function($stateParams, FriendsService){
+                    console.log("Usao je u resolve");
+                    console.log($stateParams.username);
+                    console.log(FriendsService.initialFriendsCtrlData($stateParams.username));
+                    return FriendsService.initialFriendsCtrlData($stateParams.username);   
+                  }]
+            },
+            params: {
+                username: null
+            } 
+        })
         $urlRouterProvider.otherwise('/home');
     }]);
 /*app.config(['$stateProvider', '$urlRouterProvider',

@@ -46,7 +46,7 @@ public class CulturalObject implements Serializable {
 	@Column(name="grad")
 	private String city;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne
 	@JoinColumn(name="admin")
 	private User admin;
 	

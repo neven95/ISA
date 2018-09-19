@@ -28,7 +28,12 @@ body, .form-control{
   box-shadow: 0 0 30px black;
 }
 
+.carddemoBasicUsage .card-media {
+  background-color: #999999; }
 
+  .listdemoBasicUsage md-divider {
+    margin-top: 10px;
+    margin-bottom: 0; }
 
 .chooseType{
    

@@ -1,4 +1,4 @@
-var app = angular.module('crudApp',['ui.router','ngStorage','registration-module', 'login-module',  'ngCookies']);
+var app = angular.module('crudApp',['ui.router', 'ngMaterial', 'ngMessages','ngStorage','registration-module', 'login-module',  'ngCookies']);
 
 app.run(function($rootScope, $location, $http, $cookies, CinemasService, TheatresService) {
 
@@ -34,8 +34,14 @@ app.constant('urls', {
     OBJECT_SERVICE_API : 'http://localhost:8080/SpringBootCRUDApp/theatresApi/registerObject'
 });
 
-    app.config(['$stateProvider', '$urlRouterProvider',
-    function($stateProvider, $urlRouterProvider) {
+    app.config(['$stateProvider', '$urlRouterProvider', '$mdThemingProvider',
+    function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
+       
+            $mdThemingProvider.theme('dark-grey').backgroundPalette('grey').dark();
+            $mdThemingProvider.theme('dark-orange').backgroundPalette('orange').dark();
+            $mdThemingProvider.theme('dark-purple').backgroundPalette('deep-purple').dark();
+            $mdThemingProvider.theme('dark-blue').backgroundPalette('blue').dark();
+          
         $stateProvider
         .state('guest-abstract', {
             abstract: true,
@@ -135,6 +141,36 @@ app.constant('urls', {
                   templateUrl: 'partials/profileOverview',
                   controller: 'ProfileController',
                   controllerAs: 'profCtrl'
+              }
+            }  
+        })
+        .state('guest-abstract.profile-abstract.theatres-list', {
+            url: '/theatres',
+            resolve: {
+                initialData: ['$stateParams', 'TheatresService',function($stateParams, TheatresService){
+                      return TheatresService.initialTheatresCtrlData();   
+                  }]
+            },
+            views: {
+                'culturalObjects-list': {
+                  templateUrl: 'partials/theatres-list',
+                  controller: 'CulturalObjectController',
+                  controllerAs: 'coCtrl'
+              }
+            }  
+        })
+        .state('guest-abstract.profile-abstract.cinemas-list', {
+            url: '/cinemas',
+            resolve: {
+                initialData: ['$stateParams', 'CinemasService',function($stateParams, CinemasService){
+                      return CinemasService.initialCinemasCtrlData();   
+                  }]
+            },
+            views: {
+                'culturalObjects-list': {
+                  templateUrl: 'partials/theatres-list',
+                  controller: 'CulturalObjectController',
+                  controllerAs: 'coCtrl'
               }
             }  
         })
@@ -246,7 +282,7 @@ app.constant('urls', {
                 
               'reserve': { templateUrl: 'partials/reserve',
                 controller: 'ReserveController',
-                controllerAs: 'friendsCtrl'
+                controllerAs: 'reserveCtrl'
             }
             }
         })

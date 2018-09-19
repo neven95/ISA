@@ -11,7 +11,7 @@ angular.module('crudApp').controller('FriendsSearchController',['$state', '$root
     self.searchValue='';
     console.log(self.searchResults);
     console.log("**************");
-    console.log(self.userData.friends[0].friendsKey);
+    console.log(self.userData);
     function addFriend(usersId, friendsId){
         FriendsService.addFriend(usersId, friendsId)
         .then(

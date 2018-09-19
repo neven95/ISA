@@ -30,11 +30,11 @@ public class TheatresController {
 	@RequestMapping(value="/theatres", method=RequestMethod.GET)
 	public ResponseEntity<?> getTheatres() {
 		System.out.println("Upapp*o*o*********************************");
-		List<CulturalObject> theatresList = theatreService.findAllObjects();
+		List<CulturalObject> culturalObjectList = theatreService.findAllObjects();
 		
-		if(theatresList.isEmpty())
+		if(culturalObjectList.isEmpty())
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
-		return new ResponseEntity<List<CulturalObject>>(theatresList, HttpStatus.OK);
+		return new ResponseEntity<List<CulturalObject>>(culturalObjectList, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/registerObject", method=RequestMethod.POST)

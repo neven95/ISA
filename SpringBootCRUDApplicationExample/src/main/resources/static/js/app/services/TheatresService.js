@@ -8,6 +8,7 @@ angular.module('crudApp').factory('TheatresService',
             factoryMethods.initialTheatresCtrlData = function() {
                 var theatresList = $http.get(urls.THEATRES_SERVICE_API)
                     .then(function(response) {
+                        console.log("Theatres response", response.data);
                         return response.data;
                     }, function(error) {
                         console.log("Error occured while initializing list of all theatres!");
@@ -15,7 +16,7 @@ angular.module('crudApp').factory('TheatresService',
     
                 return $q.all([theatresList])
                     .then(function(results) {
-                        return {   theatresList: results[0] };        
+                        return {   culturalObjectList: results[0] };        
                     });
             }
             return factoryMethods;

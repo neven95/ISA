@@ -3,6 +3,7 @@ angular.module('crudApp').controller('BaseController',['$state', '$rootScope', '
 
     self.logout = logout;
     self.search = search;
+    self.goToReserve = goToReserve;
     self.searchValue='';
     function search(){
         if(self.searchValue==null || self.searchValue==''){
@@ -14,6 +15,14 @@ angular.module('crudApp').controller('BaseController',['$state', '$rootScope', '
         console.log("Logout...")
         AuthenticationService.ClearCredentials();
         $state.go('guest-abstract.home');
+    }
+    function goToReserve(){
+        console.log(!$rootScope.globals.currentUser.username);
+        if(!$rootScope.globals.currentUser.username){
+            $state.go('login');
+            return;
+        }
+        $state.go('guest-abstract.reserve');
     }
 
 }]);

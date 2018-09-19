@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,10 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name="korisnik")
@@ -25,42 +24,6 @@ public class User implements Serializable{
 	@Column(name="id")
 	private Long id;
 	
-	/*@JsonIgnoreProperties("friendsOf")
-	@ManyToMany(fetch = FetchType.LAZY,cascade={CascadeType.PERSIST, CascadeType.MERGE,
-			CascadeType.DETACH,CascadeType.REFRESH})
-	@JoinTable(
-			name="prijatelji1",
-			joinColumns=@JoinColumn(name="id_prijatelja1"),
-			inverseJoinColumns=@JoinColumn(name="id_prijatelja2")
-			)
-	private List<User> friends;
-	
-	@JsonIgnoreProperties("friends")
-	@ManyToMany(fetch = FetchType.LAZY,cascade={CascadeType.PERSIST, CascadeType.MERGE,
-			CascadeType.DETACH,CascadeType.REFRESH})
-	@JoinTable(
-			name="prijatelji1",
-			joinColumns=@JoinColumn(name="id_prijatelja2"),
-			inverseJoinColumns=@JoinColumn(name="id_prijatelja1")
-			)
-	private List<User> friendsOf;
-	
-	public List<User> getFriendsOf() {
-		return friendsOf;
-	}
-
-	public void setFriendsOf(List<User> friendsOf) {
-		this.friendsOf = friendsOf;
-	}
-
-	public List<User> getFriends() {
-		return friends;
-	}
-
-	public void setFriends(List<User> friends) {
-		this.friends = friends;
-	}
-*/
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "friends")
 	private Set<Friends> friends = new HashSet<Friends>();
 	
@@ -85,6 +48,9 @@ public class User implements Serializable{
 	
 	@Column(name="tip")
 	private String type;
+	
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "admin", cascade = CascadeType.ALL)
+	private CulturalObject culturalObject;
 	
 	public String getType() {
 		return type;
@@ -117,14 +83,6 @@ public class User implements Serializable{
 	public void setConfirmationToken(String confirmationToken) {
 		this.confirmationToken = confirmationToken;
 	}
-
-	/*public CulturalObject getObject() {
-		return object;
-	}
-
-	public void setObject(CulturalObject object) {
-		this.object = object;
-	}*/
 
 	@Column(name="tel")
 	private String phoneNumber;

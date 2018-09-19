@@ -19,7 +19,7 @@ angular.module('crudApp').factory('CinemasService',
 
                 return $q.all([cinemasList])
                     .then(function(results) {
-                        return { cinemasList: results[0] };
+                        return { culturalObjectList: results[0] };
                     });
 
             }

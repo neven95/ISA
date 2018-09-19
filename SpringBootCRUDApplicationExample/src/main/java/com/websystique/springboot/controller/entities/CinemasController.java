@@ -28,12 +28,12 @@ public class CinemasController {
 	@RequestMapping(value="/cinemas", method=RequestMethod.GET)
 	public ResponseEntity<?> getCinemas(){
 		System.out.println("Upapp*o*o*********************************");
-		List<CulturalObject> cinemasList = cinemaService.findAllObjects();
-		System.out.println(cinemasList.get(0));
-		if(cinemasList.isEmpty()){
+		List<CulturalObject> culturalObjectList = cinemaService.findAllObjects();
+		System.out.println(culturalObjectList.get(0));
+		if(culturalObjectList.isEmpty()){
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<List<CulturalObject>>(cinemasList, HttpStatus.OK);
+		return new ResponseEntity<List<CulturalObject>>(culturalObjectList, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/cinemas/registerCinema", method=RequestMethod.POST)

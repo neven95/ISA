@@ -1,6 +1,0 @@
-package com.websystique.springboot.model;
-
-public class UserDTO {
-	
-	
-}
